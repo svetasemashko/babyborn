@@ -1,0 +1,48 @@
+{% extends 'newborn/base.html.twig' %}
+
+{% block title %}New Newborn{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-lg my-5">
+        <h2>{{ 'createData'|trans }}</h2>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_newborn_index') }}">{{ 'newborns'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ 'createData'|trans }}</li>
+            </ol>
+        </nav>
+        <div class="container-lg my-5">
+            <div class="row">
+                <div class="col-sm">
+                    <table>
+                        <tbody>
+                        {{ include('newborn/_form.html.twig', {'button_label': 'button.create'}) }}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm">
+                    <img src="{{ newborn.sex == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

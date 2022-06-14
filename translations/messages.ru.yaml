@@ -1,0 +1,29 @@
+createData:  Создать нового
+dateOfBirth: Дата рождения
+editData:    Редактировать данные
+id:          №
+infant:      Инфант
+kids:        Дети
+main:        Главная
+name:        Имя
+newborn:     Новорожденный
+newborns:    Новорожденные
+sex:         Пол
+toddler:     Тоддлер
+
+female:      Женский
+male:        Мужской
+
+button:
+  backToList: Назад к списку
+  delete:     Удалить
+  edit:       Редактировать
+  show:       Показать
+  update:     Обновить
+  create:     Добавить
+
+confirm:
+  delete: Вы уверены, что хотите удалить?
+
+noRecordsFound: Записи не найдены
+moments:        Сохраняй лучшие моменты

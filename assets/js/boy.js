@@ -1,0 +1,2 @@
+import '../styles/boy.css';
+

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'kids'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-lg my-5">
+        <h2>{{ 'moments'|trans }}</h2>
+
+        <div class="container-lg my-5">
+            <div class="row">
+                <div class="col-sm">
+                    <a class="btn btn-info btn-block" href="{{ path('app_newborn_index')}}" role="button">{{ 'newborn'|trans }}</a>
+                </div>
+                <div class="col-sm">
+                    <a class="btn btn-info btn-block" href="" role="button">{{ 'infant'|trans }}</a>
+                </div>
+                <div class="col-sm">
+                    <a class="btn btn-info btn-block" href="" role="button">{{ 'toddler'|trans }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+

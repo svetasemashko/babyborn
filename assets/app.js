@@ -10,3 +10,11 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+$(document).ready(function() {
+    $('.js-datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        clearBtn: true,
+        autoclose: true,
+    });
+});

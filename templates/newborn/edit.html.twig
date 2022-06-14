@@ -1,0 +1,50 @@
+{% extends 'newborn/base.html.twig' %}
+
+{% block title %}{{ 'editData'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if newborn.sex == 'male' %}
+        {{ encore_entry_link_tags('boy') }}
+    {% elseif newborn.sex == 'female' %}
+        {{ encore_entry_link_tags('girl') }}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-lg my-5">
+        <h2>{{ 'editData'|trans }}</h2>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_newborn_index') }}">{{ 'newborns'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ newborn.name }}</li>
+            </ol>
+        </nav>
+        <div class="container-lg my-5">
+            <div class="row">
+                <div class="col-sm">
+                    <table>
+                        <tbody>
+                            {{ include('newborn/_form.html.twig', {'button_label': 'button.update'}) }}
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm">
+                    <img src="{{ newborn.sex == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300">
+                </div>
+            </div>
+
+            <a href="{{ path('app_newborn_index') }}">back to list</a>
+
+            {{ include('newborn/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

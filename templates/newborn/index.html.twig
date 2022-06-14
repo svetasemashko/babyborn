@@ -1,0 +1,56 @@
+{% extends 'newborn/base.html.twig' %}
+
+{% block title %}{{ 'newborns'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="container-lg my-5">
+    <h2>{{ 'newborns'|trans }}</h2>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'newborns'|trans }}</li>
+        </ol>
+    </nav>
+    <div class="container-lg my-5">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'id'|trans }}</th>
+                <th scope="col">{{ 'name'|trans }}</th>
+                <th scope="col">{{ 'dateOfBirth'|trans }}</th>
+                <th scope="col">{{ 'sex'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for newborn in newborns %}
+                <tr>
+                    <td class="ml-4">{{ newborn.id }}</td>
+                    <td>{{ newborn.name }}</td>
+                    <td>{{ newborn.dateOfBirth ? newborn.dateOfBirth|date('d-M-Y') : '' }}</td>
+                    <td>{{ newborn.sex|trans }}</td>
+                    <td>
+                        <a class="btn btn-info btn text-nowrap" href="{{ path('app_newborn_show', {'id': newborn.id}) }}" role="button">{{ 'button.show'|trans }}</a>
+                        <a class="btn btn-info btn" href="{{ path('app_newborn_edit', {'id': newborn.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">{{ 'noRecordsFound'|trans }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a class="btn btn-info btn-block" href="{{ path('app_newborn_new') }}" role="button">{{ 'button.create'|trans }}</a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
