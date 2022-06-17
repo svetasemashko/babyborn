@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infant index{% endblock %}
+
+{% block body %}
+    <h1>Infant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>DateOfBirth</th>
+                <th>Sex</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for infant in infants %}
+            <tr>
+                <td>{{ infant.id }}</td>
+                <td>{{ infant.name }}</td>
+                <td>{{ infant.dateOfBirth ? infant.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ infant.sex }}</td>
+                <td>
+                    <a href="{{ path('app_infant_show', {'id': infant.id}) }}">show</a>
+                    <a href="{{ path('app_infant_edit', {'id': infant.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_infant_new') }}">Create new</a>
+{% endblock %}

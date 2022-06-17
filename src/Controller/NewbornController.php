@@ -3,9 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Newborn;
+use App\Event\BecameInfantEvent;
+use App\EventListener\InfantSubscriber;
 use App\Form\NewbornType;
 use App\Repository\NewbornRepository;
+use App\Service\AgeDistributor;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,6 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/newborn', name: 'app_newborn')]
 class NewbornController extends AbstractController
 {
+    public function __construct(
+        public EventDispatcherInterface $eventDispatcher
+    ) {}
+
     #[Route('/', name: '_index', methods: ['GET'])]
     public function index(NewbornRepository $newbornRepository): Response
     {

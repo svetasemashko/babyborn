@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Newborn;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class NewbornRepository extends ServiceEntityRepository
 {
+    public const TIME_FROM_BIRTH = '-2 month';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Newborn::class);
@@ -39,28 +42,19 @@ class NewbornRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Newborn[] Returns an array of Newborn objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('n.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Newborn
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @param DateTime $date Date to become infant
+     *
+     * @return Newborn[] Returns an array of Newborn objects
+     */
+    public function findByDateOfBecameInfant(DateTime $date): array
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.dateOfBirth < :date')
+            ->setParameter('date', $date)
+            ->orderBy('n.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -74,11 +74,17 @@
     "doctrine/sql-formatter": {
         "version": "1.1.2"
     },
+    "dragonmantank/cron-expression": {
+        "version": "v3.3.1"
+    },
     "egulias/email-validator": {
         "version": "3.2"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.12"
+    },
+    "guikingone/scheduler-bundle": {
+        "version": "0.9.3"
     },
     "laminas/laminas-code": {
         "version": "4.5.1"
@@ -245,6 +251,18 @@
     },
     "symfony/intl": {
         "version": "v6.1.0"
+    },
+    "symfony/lock": {
+        "version": "6.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "a1c8800e40ae735206bb14586fdd6c4630a51b8d"
+        },
+        "files": [
+            "config/packages/lock.yaml"
+        ]
     },
     "symfony/mailer": {
         "version": "6.1",
@@ -499,5 +517,8 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "zenstruck/schedule-bundle": {
+        "version": "v1.4.0"
     }
 }

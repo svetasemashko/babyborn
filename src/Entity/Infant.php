@@ -2,36 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\NewbornRepository;
+use App\Repository\InfantRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: NewbornRepository::class)]
-class Newborn extends AbstractKid
+#[ORM\Entity(repositoryClass: InfantRepository::class)]
+class Infant extends AbstractKid
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     protected $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Assert\NotBlank(message: 'Please, give a name.')]
-    #[Assert\Regex('/^[a-zA-Z\s]+$/')]
+    #[ORM\Column(type: 'string', length: 255)]
     protected $name;
 
     #[ORM\Column(type: 'datetime')]
-    #[Assert\NotNull]
     protected $dateOfBirth;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: false)]
-    #[Assert\NotNull]
+    #[ORM\Column(type: 'string', length: 100)]
     protected $sex;
-
-    #[ORM\ManyToMany(targetEntity: "Adult", inversedBy: "newborn")]
-    #[ORM\JoinTable(name: "newborns_adults")]
-    #[ORM\JoinColumn(name: "newborn_id", referencedColumnName: "id")]
-    #[ORM\InverseJoinColumn(name: "adult_id", referencedColumnName: "id")]
-    private $adult;
 
     public function getId(): ?int
     {
@@ -43,7 +32,7 @@ class Newborn extends AbstractKid
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 

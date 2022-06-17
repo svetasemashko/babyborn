@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Infant{% endblock %}
+
+{% block body %}
+    <h1>Create new Infant</h1>
+
+    {{ include('infant/_form.html.twig') }}
+
+    <a href="{{ path('app_infant_index') }}">back to list</a>
+{% endblock %}
