@@ -15,8 +15,8 @@ class AppScheduleBuilder implements ScheduleBuilder
         ;
 
         $schedule->addCommand('app:check-is-infant')
-            ->description('Send the weekly report to users.')
-            ->everyMinute()
+            ->description('Check is newborn become infant.')
+            ->dailyOn('11')
         ;
     }
 }

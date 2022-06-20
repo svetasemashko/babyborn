@@ -2,14 +2,16 @@
 
 namespace App\Command;
 
-use App\Entity\Infant;
 use App\Entity\Newborn;
+use App\Event\BecameInfantEvent;
 use App\Repository\NewbornRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'app:check-is-infant',
@@ -19,7 +21,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CheckIsInfantCommand extends Command
 {
     public function __construct(
-        public EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private EventDispatcherInterface $dispatcher,
     )
     {
         parent::__construct();
@@ -36,16 +39,13 @@ class CheckIsInfantCommand extends Command
         $newborns = $newbornRepository->findByDateOfBecameInfant($dateToBecameInfant);
 
         foreach ($newborns as $newborn) {
-            $infant = new Infant();
-            $infant
-                ->setName($newborn->getName())
-                ->setDateOfBirth($newborn->getDateOfBirth())
-                ->setSex($newborn->getSex());
-
-            $this->entityManager->persist($infant);
+            try {
+                $event = new BecameInfantEvent($newborn);
+                $this->dispatcher->dispatch($event, BecameInfantEvent::NAME);
+            } catch (\Throwable $e) {
+                return Command::FAILURE;
+            }
         }
-
-        $this->entityManager->flush();
 
         return Command::SUCCESS;
     }

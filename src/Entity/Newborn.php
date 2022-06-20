@@ -12,25 +12,25 @@ class Newborn extends AbstractKid
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    protected $id;
+    private $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\NotBlank(message: 'Please, give a name.')]
     #[Assert\Regex('/^[a-zA-Z\s]+$/')]
-    protected $name;
+    private $name;
 
     #[ORM\Column(type: 'datetime')]
     #[Assert\NotNull]
-    protected $dateOfBirth;
+    private $dateOfBirth;
 
     #[ORM\Column(type: 'string', length: 100, nullable: false)]
     #[Assert\NotNull]
-    protected $sex;
+    private $sex;
 
-    #[ORM\ManyToMany(targetEntity: "Adult", inversedBy: "newborn")]
-    #[ORM\JoinTable(name: "newborns_adults")]
-    #[ORM\JoinColumn(name: "newborn_id", referencedColumnName: "id")]
-    #[ORM\InverseJoinColumn(name: "adult_id", referencedColumnName: "id")]
+    #[ORM\ManyToMany(targetEntity: 'Adult', inversedBy: 'newborn')]
+    #[ORM\JoinTable(name: 'newborns_adults')]
+    #[ORM\JoinColumn(name: 'newborn_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'adult_id', referencedColumnName: 'id')]
     private $adult;
 
     public function getId(): ?int

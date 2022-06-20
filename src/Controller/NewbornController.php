@@ -3,14 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Newborn;
-use App\Event\BecameInfantEvent;
-use App\EventListener\InfantSubscriber;
 use App\Form\NewbornType;
 use App\Repository\NewbornRepository;
-use App\Service\AgeDistributor;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

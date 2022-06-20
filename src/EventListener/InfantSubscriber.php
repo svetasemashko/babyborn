@@ -22,14 +22,16 @@ class InfantSubscriber implements EventSubscriberInterface
 
     public function createInfant(BecameInfantEvent $event)
     {
-        $newborn = $event->getNewborn();
-        $infant = new Infant();
-        $infant->setName($newborn->getName())
-            ->setDateOfBirth($newborn->getDateOfBirth())
-            ->setSex($newborn->getSex());
+        try {
+            $newborn = $event->getNewborn();
+            $infant = new Infant($newborn);
 
-        $this->em->persist($infant);
-        $this->em->flush();
-        // clone newborn entity to infant entity
+            $this->em->persist($infant);
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+        } catch (\Exception $exception) {
+            $this->em->getConnection()->rollBack();
+            throw $exception;
+        }
     }
 }
