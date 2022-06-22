@@ -11,7 +11,27 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $logger: '@app_logger'
 
+#    check_is_infant_command:
+#        class: App\Command\CheckIsInfantCommand
+#        arguments:
+#            - '@doctrine.orm.entity_manager'
+#            - '@event_dispatcher'
+#            - '@app_logger'
+
+    app_logger:
+        class: Monolog\Logger
+        arguments:
+            - 'app_logger'
+            - ['@stream_handler']
+
+    stream_handler:
+        class: Monolog\Handler\StreamHandler
+        arguments:
+            - '%kernel.logs_dir%/app_%kernel.environment%.log'
+            - 'info'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
