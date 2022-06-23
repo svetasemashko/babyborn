@@ -24,7 +24,8 @@ class Infant extends AbstractKid
     #[ORM\Column(type: 'string', length: 100)]
     private $sex;
 
-    #[ORM\OneToOne(targetEntity: 'Newborn')]
+    #[ORM\OneToOne(inversedBy: 'infant', targetEntity: 'Newborn')]
+    #[ORM\JoinColumn(name: 'newborn_id', referencedColumnName: 'id')]
     private $newborn;
 
     public function __construct(Newborn $newborn) {

@@ -24,6 +24,7 @@ class InfantSubscriber implements EventSubscriberInterface
 
     public function createInfant(BecameInfantEvent $event)
     {
+        $this->em->getConnection()->beginTransaction();
         try {
             $newborn = $event->getNewborn();
             $infant = new Infant($newborn);
@@ -31,7 +32,7 @@ class InfantSubscriber implements EventSubscriberInterface
             $this->em->persist($infant);
             $this->em->flush();
             $this->em->getConnection()->commit();
-            $this->logger->debug('Infant has been created', [
+            $this->logger->info('Infant has been created', [
                 'infantId' => $infant->getId(),
             ]);
         } catch (\Exception $exception) {

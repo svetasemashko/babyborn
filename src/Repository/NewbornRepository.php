@@ -51,8 +51,9 @@ class NewbornRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('n')
             ->andWhere('n.dateOfBirth < :date')
+            ->andWhere('i.newborn IS NULL')
+            ->leftJoin('n.infant', 'i')
             ->setParameter('date', $date)
-            ->orderBy('n.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;

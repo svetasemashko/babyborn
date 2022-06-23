@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\NewbornRepository;
+use App\Entity\Infant;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,6 +33,9 @@ class Newborn extends AbstractKid
     #[ORM\JoinColumn(name: 'newborn_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'adult_id', referencedColumnName: 'id')]
     private $adult;
+
+    #[ORM\OneToOne(mappedBy: 'newborn', targetEntity: 'Infant')]
+    private $infant;
 
     public function getId(): ?int
     {
