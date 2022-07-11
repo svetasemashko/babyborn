@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Adult;
 use App\Entity\Newborn;
+use App\Form\AdultType;
 use App\Form\NewbornType;
+use App\Repository\AdultRepository;
 use App\Repository\NewbornRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -45,10 +48,23 @@ class NewbornController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: '_show', methods: ['GET'])]
-    public function show(Newborn $newborn): Response
+    #[Route('/{id}', name: '_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, Newborn $newborn, AdultRepository $adultRepository, NewbornRepository $newbornRepository): Response
     {
-        return $this->render('newborn/show.html.twig', [
+        $adult = new Adult();
+        $adultForm = $this->createForm(AdultType::class, $adult);
+        $adultForm->handleRequest($request);
+
+        if ($adultForm->isSubmitted() && $adultForm->isValid()) {
+            $newborn->addAdult($adult);
+            $adultRepository->add($adult, true);
+            $newbornRepository->add($newborn, true);
+
+            return $this->redirectToRoute('app_newborn_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('newborn/show.html.twig', [
+            'adult_form' => $adultForm,
             'newborn' => $newborn,
         ]);
     }
@@ -79,5 +95,12 @@ class NewbornController extends AbstractController
         }
 
         return $this->redirectToRoute('app_newborn_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function addAdult(Newborn $newborn): Response
+    {
+        return $this->renderForm('newborn/show', [
+
+        ]);
     }
 }

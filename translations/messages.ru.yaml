@@ -1,3 +1,4 @@
+adult:       Родитель
 createData:  Создать нового
 dateOfBirth: Дата рождения
 editData:    Редактировать данные
@@ -9,6 +10,7 @@ name:        Имя
 newborn:     Новорожденный
 newborns:    Новорожденные
 sex:         Пол
+surname:     Фамилия
 toddler:     Тоддлер
 
 female:      Женский

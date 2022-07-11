@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\NewbornRepository;
-use App\Entity\Infant;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,14 +29,19 @@ class Newborn extends AbstractKid
     #[Assert\NotNull]
     private $sex;
 
-    #[ORM\ManyToMany(targetEntity: 'Adult', inversedBy: 'newborn')]
+    #[ORM\OneToOne(mappedBy: 'newborn', targetEntity: 'Infant')]
+    private $infant;
+
+    #[ORM\ManyToMany(targetEntity: 'Adult', inversedBy: 'newborns')]
     #[ORM\JoinTable(name: 'newborns_adults')]
     #[ORM\JoinColumn(name: 'newborn_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'adult_id', referencedColumnName: 'id')]
-    private $adult;
+    private $adults;
 
-    #[ORM\OneToOne(mappedBy: 'newborn', targetEntity: 'Infant')]
-    private $infant;
+    public function __construct()
+    {
+        $this->adults = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,5 +82,32 @@ class Newborn extends AbstractKid
         $this->sex = $sex;
 
         return $this;
+    }
+
+    /** @return Collection|Adult[] */
+    public function getAdults(): Collection
+    {
+        return $this->adults;
+    }
+
+    public function addAdult(Adult $adult): self
+    {
+        if (!$this->adults->contains($adult)) {
+            $this->adults[] = $adult;
+        }
+
+        return $this;
+    }
+
+    public function removeAdult(Adult $adult): self
+    {
+        $this->adults->removeElement($adult);
+
+        return $this;
+    }
+
+    public function getInfant(): ?Infant
+    {
+        return $this->infant;
     }
 }

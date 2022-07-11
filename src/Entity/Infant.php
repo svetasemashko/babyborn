@@ -28,13 +28,6 @@ class Infant extends AbstractKid
     #[ORM\JoinColumn(name: 'newborn_id', referencedColumnName: 'id')]
     private $newborn;
 
-    public function __construct(Newborn $newborn) {
-        $this->newborn = $newborn;
-        $this->name = $newborn->getName() ?: null;
-        $this->dateOfBirth = $newborn->getDateOfBirth();
-        $this->sex = $newborn->getSex();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +65,18 @@ class Infant extends AbstractKid
     public function setSex(string $sex): self
     {
         $this->sex = $sex;
+
+        return $this;
+    }
+
+    public function getNewborn(): ?Newborn
+    {
+        return $this->newborn;
+    }
+
+    public function setNewborn(?Newborn $newborn): self
+    {
+        $this->newborn = $newborn;
 
         return $this;
     }

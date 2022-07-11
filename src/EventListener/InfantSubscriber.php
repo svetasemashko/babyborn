@@ -4,6 +4,7 @@ namespace App\EventListener;
 
 use App\Entity\Infant;
 use App\Event\BecameInfantEvent;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Monolog\Logger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -22,12 +23,19 @@ class InfantSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     public function createInfant(BecameInfantEvent $event)
     {
         $this->em->getConnection()->beginTransaction();
         try {
             $newborn = $event->getNewborn();
-            $infant = new Infant($newborn);
+            $infant = new Infant();
+            $infant->setName($newborn->getName());
+            $infant->setDateOfBirth($newborn->getDateOfBirth());
+            $infant->setSex($newborn->getSex());
+            $infant->setNewborn($newborn);
 
             $this->em->persist($infant);
             $this->em->flush();

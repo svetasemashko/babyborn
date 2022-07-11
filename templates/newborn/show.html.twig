@@ -22,8 +22,8 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ newborn.name }}</li>
             </ol>
         </nav>
+        <a class="btn btn-info" href="{{ path('app_newborn_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
         <div class="container-lg my-5">
-            <a class="btn btn-info" href="{{ path('app_newborn_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
             <div class="container-lg my-5">
                 <div class="row">
                     <div class="col-sm">
@@ -43,7 +43,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div class="row" >
+                        <div class="row">
                             <div class="col-sm">
                                 <a class="btn btn-info btn-block" href="{{ path('app_newborn_edit', {'id': newborn.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
                             </div>
@@ -53,14 +53,23 @@
                         </div>
                     </div>
                     <div class="col-sm">
-                        <img src="{{ newborn.sex == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300">
+                        <img src="{{ newborn.sex == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <tbody>
+                        <tr>
+                            <th>{{ 'adult'|trans }}</th>
+                        </tr>
+                        {{ form_start(adult_form) }}
+                        {{ form_widget(adult_form) }}
+                        <button class="btn btn-info">{{ 'button.create'|trans }}</button>
+                        {{ form_end(adult_form) }}
+                        </tbody>
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
     </div>
 {% endblock %}

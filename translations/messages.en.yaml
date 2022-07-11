@@ -1,3 +1,4 @@
+adult:       Parent
 createData:  Create data
 dateOfBirth: Date of Birth
 editData:    Edit data
@@ -9,7 +10,7 @@ name:        Name
 newborn:     Newborn
 newborns:    Newborns
 sex:         Sex
-
+surname:     Surname
 female:      Female
 male:        Male
 
