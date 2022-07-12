@@ -25,7 +25,16 @@
             </tr>
         </tbody>
     </table>
-
+    {% for adult in adults %}
+        <tr>
+            <td>{{ adult.name }}</td>
+            <td>{{ adult.surname }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
     <a href="{{ path('app_infant_index') }}">back to list</a>
 
     <a href="{{ path('app_infant_edit', {'id': infant.id}) }}">edit</a>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Infant;
 use App\Form\InfantType;
+use App\Repository\AdultRepository;
 use App\Repository\InfantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,31 +22,14 @@ class InfantController extends AbstractController
         ]);
     }
 
-//    #[Route('/new', name: 'app_infant_new', methods: ['GET', 'POST'])]
-//    public function new(Request $request, InfantRepository $infantRepository): Response
-//    {
-//        $infant = new Infant();
-//        $form = $this->createForm(InfantType::class, $infant);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $infantRepository->add($infant, true);
-//
-//            return $this->redirectToRoute('app_infant_index', [], Response::HTTP_SEE_OTHER);
-//        }
-//
-//        return $this->renderForm('infant/new.html.twig', [
-//            'infant' => $infant,
-//            'form' => $form,
-//        ]);
-//    }
-
     #[Route('/{id}', name: 'app_infant_show', methods: ['GET'])]
-    public function show(Infant $infant): Response
+    public function show(Infant $infant, AdultRepository $adultRepository): Response
     {
+        $adults = $adultRepository->findAllByInfant($infant);
+
         return $this->render('infant/show.html.twig', [
             'infant' => $infant,
-            'adult' => $infant->getAdults(),
+            'adults' => $adults,
         ]);
     }
 

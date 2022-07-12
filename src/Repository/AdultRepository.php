@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Adult;
+use App\Entity\Infant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,5 +38,17 @@ class AdultRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllByInfant(Infant $infant): array
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.newborns', 'n')
+            ->leftJoin('n.infant', 'i')
+            ->andWhere('i.id = :infant')
+            ->setParameter('infant', $infant)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }
