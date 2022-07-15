@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Newborn;
+use App\Enum\InfantEnum;
 use App\Event\BecameInfantEvent;
 use App\Repository\NewbornRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +36,7 @@ class CheckIsInfantCommand extends Command
         $newbornRepository = $this->entityManager->getRepository(Newborn::class);
 
         $dateToBecameInfant = new \DateTime();
-        $dateToBecameInfant->modify(NewbornRepository::TIME_FROM_BIRTH);
+        $dateToBecameInfant->modify(InfantEnum::getIntervalToBecomeInfant());
 
         $newborns = $newbornRepository->findByDateOfBecameInfant($dateToBecameInfant);
 

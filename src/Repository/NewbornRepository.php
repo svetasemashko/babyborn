@@ -17,8 +17,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class NewbornRepository extends ServiceEntityRepository
 {
-    public const TIME_FROM_BIRTH = '-2 month';
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Newborn::class);
