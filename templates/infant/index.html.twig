@@ -1,38 +1,38 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Infant index{% endblock %}
+{% extends 'infant/base.html.twig' %}
 
 {% block body %}
-    <h1>Infant index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>DateOfBirth</th>
-                <th>Sex</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for infant in infants %}
-            <tr>
-                <td>{{ infant.id }}</td>
-                <td>{{ infant.name }}</td>
-                <td>{{ infant.dateOfBirth ? infant.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ infant.sex }}</td>
-                <td>
-                    <a href="{{ path('app_infant_show', {'id': infant.id}) }}">show</a>
-                    <a href="{{ path('app_infant_edit', {'id': infant.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    <div class="container-lg my-5">
+        <h2>{{ 'infants'|trans }}</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ 'infants'|trans }}</li>
+            </ol>
+        </nav>
+        <div class="container-lg my-5">
+            <table class="table">
+                <thead>
+                    {% include 'blocks/kid_table_head.html.twig' %}
+                </thead>
+                <tbody>
+                    {% for infant in infants %}
+                        <tr>
+                            <td class="ml-4">{{ infant.id }}</td>
+                            <td>{{ infant.name }}</td>
+                            <td>{{ infant.dateOfBirth ? infant.dateOfBirth|date('d-M-Y') : '' }}</td>
+                            <td>{{ infant.sex|trans }}</td>
+                            <td>
+                                <a class="btn btn-info btn text-nowrap" href="{{ path('app_infant_show', {'id': infant.id}) }}" role="button">{{ 'button.show'|trans }}</a>
+                                <a class="btn btn-info btn" href="{{ path('app_infant_edit', {'id': infant.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">{{ 'noRecordsFound'|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

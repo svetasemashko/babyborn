@@ -12,19 +12,6 @@ class NewbornType extends KidFormType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
-        $builder
-            ->add('dateOfBirth', DateType::class, [
-                'label' => 'dateOfBirth',
-                'translation_domain' => 'messages',
-                'html5' => false,
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-                'attr' => [
-                    'class' => 'js-datepicker',
-                    'data-provide' => 'datepicker',
-                ],
-            ])
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

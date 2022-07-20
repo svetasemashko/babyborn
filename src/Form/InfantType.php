@@ -7,15 +7,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class InfantType extends AbstractType
+class InfantType extends KidFormType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('name')
-            ->add('dateOfBirth')
-            ->add('sex')
-        ;
+        parent::buildForm($builder, $options);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

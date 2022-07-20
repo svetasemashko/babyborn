@@ -1,9 +1,11 @@
+actions:     Действия
 adult:       Родитель
 createData:  Создать нового
 dateOfBirth: Дата рождения
 editData:    Редактировать данные
 id:          №
 infant:      Инфант
+infants:     Инфанты
 kids:        Дети
 main:        Главная
 name:        Имя
