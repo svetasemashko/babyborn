@@ -1,9 +1,11 @@
+actions:     Actions
 adult:       Parent
 createData:  Create data
 dateOfBirth: Date of Birth
 editData:    Edit data
 id:          Id
 infant:      Infant
+infants:     Infants
 kids:        Kids
 main:        Main page
 name:        Name

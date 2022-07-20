@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('newborn', './assets/js/newborn.js')
+    .addEntry('infant', './assets/js/infant.js')
     .addEntry('boy', './assets/js/boy.js')
     .addEntry('girl', './assets/js/girl.js')
 

@@ -1,6 +1,6 @@
 {% extends 'newborn/base.html.twig' %}
 
-{% block title %}{{ 'newborn'|trans }}{% endblock %}
+{% block title %}{{ newborn.name ?: 'newborn'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -14,7 +14,7 @@
 
 {% block body %}
     <div class="container-lg my-5">
-        <h2>{{ 'newborn'|trans }}</h2>
+        <h2>{{ newborn.name ?: 'newborn'|trans }}</h2>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
@@ -24,56 +24,57 @@
         </nav>
         <a class="btn btn-info" href="{{ path('app_newborn_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
         <div class="container-lg my-5">
-            <div class="container-lg my-5">
-                <div class="row">
-                    <div class="col-sm">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th>{{ 'name'|trans }}</th>
-                                <td>{{ newborn.name }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ 'dateOfBirth'|trans }}</th>
-                                <td>{{ newborn.dateOfBirth ? newborn.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ 'sex'|trans }}</th>
-                                <td>{{ newborn.sex|trans }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <div class="row">
-                            <div class="col-sm">
-                                <a class="btn btn-info btn-block" href="{{ path('app_newborn_edit', {'id': newborn.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
-                            </div>
-                            <div class="col-sm">
-                                {{ include('newborn/_delete_form.html.twig') }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <img src="{{ newborn.sex == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300" >
-                    </div>
+            <div class="row">
+                <div class="col-sm">
+                    <img src="{{ newborn.sex == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300" >
                 </div>
-                <div class="row">
-                    <div class="col-sm">
+                <div class="col-sm">
+                    <table>
                         <tbody>
                         <tr>
-                            <th>{{ 'adult'|trans }}</th>
+                            <th>{{ 'name'|trans }}</th>
+                            <td>{{ newborn.name }}</td>
                         </tr>
-                        {{ form_start(adult_form) }}
-                        {{ form_widget(adult_form) }}
-                        <button class="btn btn-info">{{ 'button.create'|trans }}</button>
-                        {{ form_end(adult_form) }}
+                        <tr>
+                            <th>{{ 'dateOfBirth'|trans }}</th>
+                            <td>{{ newborn.dateOfBirth ? newborn.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'sex'|trans }}</th>
+                            <td>{{ newborn.sex|trans }}</td>
+                        </tr>
                         </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a class="btn btn-info btn-block" href="{{ path('app_newborn_edit', {'id': newborn.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
+                        </div>
+                        <div class="col-sm">
+                            {{ include('newborn/_delete_form.html.twig') }}
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                </div>
+                <div class="col-sm">
+                    <tbody>
+                    <tr>
+                        <th>{{ 'adult'|trans }}</th>
+                    </tr>
+                    {{ form_start(adult_form) }}
+                    {{ form_widget(adult_form) }}
+                    <div class="row">
+                        <div class="col-sm">
+                            <button class="btn btn-info btn-block">{{ 'button.create'|trans }}</button>
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                    {{ form_end(adult_form) }}
+                    </tbody>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
 {% endblock %}

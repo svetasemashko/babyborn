@@ -1,13 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'infant/base.html.twig' %}
 
-{% block title %}Edit Infant{% endblock %}
+{% block title %}{{ 'editData'|trans }} {{ infant.name }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if infant.sex == 'male' %}
+        {{ encore_entry_link_tags('boy') }}
+    {% elseif infant.sex == 'female' %}
+        {{ encore_entry_link_tags('girl') }}
+    {% endif %}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Infant</h1>
-
-    {{ include('infant/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_infant_index') }}">back to list</a>
-
-    {{ include('infant/_delete_form.html.twig') }}
+    <div class="container-lg my-5">
+        <h2>{{ 'editData'|trans }}</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_infant_index') }}">{{ 'infants'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ infant.name }}</li>
+            </ol>
+        </nav>
+        <a class="btn btn-info" href="{{ path('app_infant_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
+        <div class="container-lg my-5">
+            <div class="row">
+                <div class="col-4 mb-2">
+                    {{ include('infant/_form.html.twig', {'button_label': 'button.update'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 mb-2">
+                    {{ include('infant/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

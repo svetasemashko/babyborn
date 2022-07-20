@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'newborns'|trans }}{% endblock %}
+{% block title %}{{ 'infants'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ encore_entry_link_tags('newborn') }}
+    {{ encore_entry_link_tags('infant') }}
 {% endblock %}
 
 {% block body %}
@@ -12,5 +12,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {{ encore_entry_script_tags('newborn') }}
+    {{ encore_entry_script_tags('infant') }}
 {% endblock %}
