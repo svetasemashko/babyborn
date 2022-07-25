@@ -51,7 +51,7 @@ class InfantController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_infant_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_infant_delete', methods: ['POST'])]
     public function delete(Request $request, Infant $infant, InfantRepository $infantRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$infant->getId(), $request->request->get('_token'))) {

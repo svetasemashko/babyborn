@@ -8,11 +8,13 @@ use App\Form\AdultType;
 use App\Form\NewbornType;
 use App\Repository\AdultRepository;
 use App\Repository\NewbornRepository;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 #[Route('/newborn', name: 'app_newborn')]
 class NewbornController extends AbstractController
@@ -87,11 +89,19 @@ class NewbornController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: '_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: '_delete', methods: ['POST'])]
     public function delete(Request $request, Newborn $newborn, NewbornRepository $newbornRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$newborn->getId(), $request->request->get('_token'))) {
-            $newbornRepository->remove($newborn, true);
+            try {
+                $newbornRepository->remove($newborn, true);
+            } catch (ForeignKeyConstraintViolationException $exception) {
+                throw new MethodNotAllowedException(
+                    [],
+                    'You can not delete Newborn with related Infant',
+                    405
+                );
+            }
         }
 
         return $this->redirectToRoute('app_newborn_index', [], Response::HTTP_SEE_OTHER);
