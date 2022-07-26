@@ -12,14 +12,19 @@
 
         <div class="container-lg my-5">
             <div class="row">
+                <div class="col mb-5 d-flex justify-content-end">
+                    <a class="btn btn-info btn-lg" href="{{ path('app_kid_new')}}" role="button">{{ 'button.createKid'|trans }}</a>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm">
-                    <a class="btn btn-info btn-block" href="{{ path('app_newborn_index')}}" role="button">{{ 'newborn'|trans }}</a>
+                    <a class="btn btn-info btn-block" href="{{ path('app_newborn_index')}}" role="button">{{ 'newborns'|trans }}</a>
                 </div>
                 <div class="col-sm">
-                    <a class="btn btn-info btn-block" href="{{ path('app_infant_index')}}" role="button">{{ 'infant'|trans }}</a>
+                    <a class="btn btn-info btn-block" href="{{ path('app_infant_index')}}" role="button">{{ 'infants'|trans }}</a>
                 </div>
                 <div class="col-sm">
-                    <a class="btn btn-info btn-block" href="" role="button">{{ 'toddler'|trans }}</a>
+                    <a class="btn btn-info btn-block" href="" role="button">{{ 'toddlers'|trans }}</a>
                 </div>
             </div>
         </div>
