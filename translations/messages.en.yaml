@@ -3,18 +3,20 @@ adult:       Parent
 createData:  Create data
 dateOfBirth: Date of Birth
 editData:    Edit data
+female:      Female
 id:          Id
 infant:      Infant
 infants:     Infants
 kids:        Kids
 main:        Main page
+male:        Male
 name:        Name
 newborn:     Newborn
 newborns:    Newborns
 sex:         Sex
 surname:     Surname
-female:      Female
-male:        Male
+toddler:     Toddler
+toddlers:    Toddlers
 
 button:
   backToList: Back to list
@@ -23,6 +25,7 @@ button:
   show:       Show
   update:     Update
   create:     Create
+  createKid:  Create new kid
 
 date:
   format:

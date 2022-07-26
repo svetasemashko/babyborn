@@ -106,11 +106,4 @@ class NewbornController extends AbstractController
 
         return $this->redirectToRoute('app_newborn_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    public function addAdult(Newborn $newborn): Response
-    {
-        return $this->renderForm('newborn/show', [
-
-        ]);
-    }
 }

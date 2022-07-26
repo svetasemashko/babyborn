@@ -3,20 +3,21 @@ adult:       Родитель
 createData:  Создать нового
 dateOfBirth: Дата рождения
 editData:    Редактировать данные
+female:      Женский
 id:          №
 infant:      Инфант
 infants:     Инфанты
 kids:        Дети
 main:        Главная
+male:        Мужской
 name:        Имя
 newborn:     Новорожденный
 newborns:    Новорожденные
 sex:         Пол
 surname:     Фамилия
 toddler:     Тоддлер
+toddlers:    Тоддлеры
 
-female:      Женский
-male:        Мужской
 
 button:
   backToList: Назад к списку
@@ -25,6 +26,7 @@ button:
   show:       Показать
   update:     Обновить
   create:     Добавить
+  createKid:  Добавить нового ребенка
 
 confirm:
   delete: Вы уверены, что хотите удалить?

@@ -40,6 +40,12 @@
                             <th>{{ 'sex'|trans }}</th>
                             <td>{{ infant.sex|trans }}</td>
                         </tr>
+                        {% for adult in adults %}
+                            <tr>
+                                <th>{{ 'adult'|trans }}</th>
+                                <td>{{ adult.name }} {{ adult.surname }}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                     <div class="row">
