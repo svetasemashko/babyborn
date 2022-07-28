@@ -3,31 +3,26 @@
 namespace App\Entity;
 
 use App\Repository\AdultRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table(name: 'adults')]
 #[ORM\Entity(repositoryClass: AdultRepository::class)]
 class Adult extends AbstractMinder
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(name: 'id', type: 'integer')]
+    private int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    private string $name;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $surname;
+    #[ORM\Column(name: 'surname', type: 'string', length: 255)]
+    private string $surname;
 
-    #[ORM\ManyToMany(targetEntity: "Newborn", mappedBy: "adults")]
-    private $newborns;
-
-    public function __construct()
-    {
-        $this->newborns = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(targetEntity: AbstractKid::class, inversedBy: 'adults')]
+    #[ORM\JoinColumn(name: 'kid_id', referencedColumnName: 'id')]
+    private Newborn|Infant $kid;
 
     public function getId(): ?int
     {
@@ -58,26 +53,14 @@ class Adult extends AbstractMinder
         return $this;
     }
 
-    public function getNewborns(): Collection
+    public function getKid(): Newborn|Infant
     {
-        return $this->newborns;
+        return $this->kid;
     }
 
-    public function addNewborn(Newborn $newborn): self
+    public function setKid(Newborn|Infant $kid): self
     {
-        if (!$this->newborns->contains($newborn)) {
-            $this->newborns[] = $newborn;
-            $newborn->addAdult($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNewborn(Newborn $newborn): self
-    {
-        if (!$this->newborns->removeElement($newborn)) {
-            $newborn->removeAdult($this);
-        }
+        $this->kid = $kid;
 
         return $this;
     }
