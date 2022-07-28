@@ -39,10 +39,7 @@ class KidController extends AbstractController
                 ->setDateOfBirth($data['dateOfBirth'])
                 ->setSex($data['sex']);
 
-            $repository = $this->entityManager->getRepository(match ($kidGroup) {
-                'newborn' => Newborn::class,
-                'infant' => Infant::class,
-            });
+            $repository = $this->entityManager->getRepository(Newborn::class);
             $repository->add($kid, true);
 
             return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);

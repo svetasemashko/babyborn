@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20220624130654 extends AbstractMigration
+final class Version20220727095636 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -18,6 +18,15 @@ final class Version20220624130654 extends AbstractMigration
     {
         $this->addSql(
             'DROP TABLE newborns_adults'
+        );
+        $this->addSql(
+            'ALTER TABLE infant DROP FOREIGN KEY FK_4375CCD9B8A5CF29'
+        );
+        $this->addSql(
+            'DROP INDEX UNIQ_4375CCD9B8A5CF29 ON infant'
+        );
+        $this->addSql(
+            'ALTER TABLE infant DROP newborn_id'
         );
     }
 
@@ -36,6 +45,16 @@ final class Version20220624130654 extends AbstractMigration
         $this->addSql(
             'ALTER TABLE newborns_adults ADD CONSTRAINT FK_1114A6D2B8A5CF29 FOREIGN KEY (newborn_id)
                 REFERENCES newborn (id) ON UPDATE NO ACTION ON DELETE NO ACTION'
+        );
+        $this->addSql(
+            'ALTER TABLE infant ADD newborn_id INT DEFAULT NULL'
+        );
+        $this->addSql(
+            'ALTER TABLE infant ADD CONSTRAINT FK_4375CCD9B8A5CF29 FOREIGN KEY (newborn_id) REFERENCES newborn (id)
+                ON UPDATE NO ACTION ON DELETE NO ACTION'
+        );
+        $this->addSql(
+            'CREATE UNIQUE INDEX UNIQ_4375CCD9B8A5CF29 ON infant (newborn_id)'
         );
     }
 }
