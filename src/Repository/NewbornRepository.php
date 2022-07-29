@@ -47,11 +47,11 @@ class NewbornRepository extends ServiceEntityRepository
      */
     public function findByDateOfBecameInfant(DateTime $date): array
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.dateOfBirth < :date')
-            ->andWhere('i.newborn IS NULL')
-            ->leftJoin('n.infant', 'i')
+        return $this->createQueryBuilder('k')
+            ->andWhere('k.dateOfBirth < :date')
+            ->andWhere('k.active = :active')
             ->setParameter('date', $date)
+            ->setParameter('active', true)
             ->getQuery()
             ->getResult()
         ;

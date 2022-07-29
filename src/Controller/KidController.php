@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\Infant;
 use App\Entity\Newborn;
 use App\Form\KidType;
+use App\Repository\KidRepository;
 use App\Service\KidMapper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class KidController extends AbstractController
 {
     public function __construct(
-        public EntityManagerInterface $entityManager
+        public KidRepository $repository,
     ) {}
 
     #[Route('/new', name: '_new', methods: ['GET', 'POST'])]
@@ -37,10 +37,10 @@ class KidController extends AbstractController
             $kid
                 ->setName($data['name'])
                 ->setDateOfBirth($data['dateOfBirth'])
-                ->setSex($data['sex']);
+                ->setSex($data['sex'])
+                ->setActive(true);
 
-            $repository = $this->entityManager->getRepository(Newborn::class);
-            $repository->add($kid, true);
+            $this->repository->add($kid, true);
 
             return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }

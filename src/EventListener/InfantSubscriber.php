@@ -31,14 +31,19 @@ class InfantSubscriber implements EventSubscriberInterface
         $this->em->getConnection()->beginTransaction();
         try {
             $newborn = $event->getNewborn();
+
             $infant = new Infant();
-            $infant->setName($newborn->getName());
-            $infant->setDateOfBirth($newborn->getDateOfBirth());
-            $infant->setSex($newborn->getSex());
-            $infant->setNewborn($newborn);
+            $infant
+                ->setName($newborn->getName())
+                ->setDateOfBirth($newborn->getDateOfBirth())
+                ->setSex($newborn->getSex())
+                ->setActive(true);
+            $newborn->setActive(false);
 
             $this->em->persist($infant);
+            $this->em->persist($newborn);
             $this->em->flush();
+
             $this->em->getConnection()->commit();
             $this->logger->info('Infant has been created', [
                 'infantId' => $infant->getId(),

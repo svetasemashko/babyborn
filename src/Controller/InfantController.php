@@ -14,11 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/infant')]
 class InfantController extends AbstractController
 {
+    public function __construct(
+        public InfantRepository $repository,
+    ) {
+    }
+
     #[Route('/', name: 'app_infant_index', methods: ['GET'])]
-    public function index(InfantRepository $infantRepository): Response
+    public function index(): Response
     {
         return $this->render('infant/index.html.twig', [
-            'infants' => $infantRepository->findAll(),
+            'infants' => $this->repository->findAll(),
         ]);
     }
 
@@ -34,13 +39,13 @@ class InfantController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_infant_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Infant $infant, InfantRepository $infantRepository): Response
+    public function edit(Request $request, Infant $infant): Response
     {
         $form = $this->createForm(InfantType::class, $infant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $infantRepository->add($infant, true);
+            $this->repository->add($infant, true);
 
             return $this->redirectToRoute('app_infant_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -52,10 +57,10 @@ class InfantController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'app_infant_delete', methods: ['POST'])]
-    public function delete(Request $request, Infant $infant, InfantRepository $infantRepository): Response
+    public function delete(Request $request, Infant $infant): Response
     {
         if ($this->isCsrfTokenValid('delete'.$infant->getId(), $request->request->get('_token'))) {
-            $infantRepository->remove($infant, true);
+            $this->repository->remove($infant, true);
         }
 
         return $this->redirectToRoute('app_infant_index', [], Response::HTTP_SEE_OTHER);
