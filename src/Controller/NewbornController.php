@@ -8,7 +8,7 @@ use App\Form\AdultType;
 use App\Form\NewbornType;
 use App\Repository\AdultRepository;
 use App\Repository\NewbornRepository;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,38 +20,21 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 class NewbornController extends AbstractController
 {
     public function __construct(
-        public EventDispatcherInterface $eventDispatcher
-    ) {}
-
-    #[Route('/', name: '_index', methods: ['GET'])]
-    public function index(NewbornRepository $newbornRepository): Response
-    {
-        return $this->render('newborn/index.html.twig', [
-            'newborns' => $newbornRepository->findAll(),
-        ]);
+        public EventDispatcherInterface $eventDispatcher,
+        public NewbornRepository $repository,
+    ) {
     }
 
-    #[Route('/new', name: '_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, NewbornRepository $newbornRepository): Response
+    #[Route('/', name: '_index', methods: ['GET'])]
+    public function index(): Response
     {
-        $newborn = new Newborn();
-        $form = $this->createForm(NewbornType::class, $newborn);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newbornRepository->add($newborn, true);
-
-            return $this->redirectToRoute('app_newborn_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('newborn/new.html.twig', [
-            'newborn' => $newborn,
-            'form' => $form,
+        return $this->render('newborn/index.html.twig', [
+            'newborns' => $this->repository->findAll(),
         ]);
     }
 
     #[Route('/{id}', name: '_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Newborn $newborn, AdultRepository $adultRepository, NewbornRepository $newbornRepository): Response
+    public function show(Request $request, Newborn $newborn, AdultRepository $adultRepository): Response
     {
         $adult = new Adult();
         $adultForm = $this->createForm(AdultType::class, $adult);
@@ -60,7 +43,7 @@ class NewbornController extends AbstractController
         if ($adultForm->isSubmitted() && $adultForm->isValid()) {
             $newborn->addAdult($adult);
             $adultRepository->add($adult, true);
-            $newbornRepository->add($newborn, true);
+            $this->repository->add($newborn, true);
 
             return $this->redirectToRoute('app_newborn_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -72,13 +55,13 @@ class NewbornController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Newborn $newborn, NewbornRepository $newbornRepository): Response
+    public function edit(Request $request, Newborn $newborn): Response
     {
         $form = $this->createForm(NewbornType::class, $newborn);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $newbornRepository->add($newborn, true);
+            $this->repository->add($newborn, true);
 
             return $this->redirectToRoute('app_newborn_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -90,16 +73,16 @@ class NewbornController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: '_delete', methods: ['POST'])]
-    public function delete(Request $request, Newborn $newborn, NewbornRepository $newbornRepository): Response
+    public function delete(Request $request, Newborn $newborn): Response
     {
         if ($this->isCsrfTokenValid('delete'.$newborn->getId(), $request->request->get('_token'))) {
             try {
-                $newbornRepository->remove($newborn, true);
-            } catch (ForeignKeyConstraintViolationException $exception) {
+                $this->repository->remove($newborn, true);
+            } catch (Exception $exception) {
                 throw new MethodNotAllowedException(
                     [],
-                    'You can not delete Newborn with related Infant',
-                    405
+                    sprintf('Something goes wrong. %s', $exception->getMessage()),
+                    $exception->getCode()
                 );
             }
         }

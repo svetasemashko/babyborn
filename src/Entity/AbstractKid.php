@@ -6,13 +6,14 @@ use App\Repository\KidRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: KidRepository::class)]
 #[ORM\Table(name: 'kids')]
 #[ORM\InheritanceType('SINGLE_TABLE')]
-#[ORM\DiscriminatorColumn(name: 'discr', type: 'string')]
+#[ORM\DiscriminatorColumn(name: 'discr', type: Types::STRING, )]
 #[ORM\DiscriminatorMap([self::NEWBORN => Newborn::class, self::INFANT => Infant::class])]
 abstract class AbstractKid extends AbstractWard
 {
@@ -21,20 +22,23 @@ abstract class AbstractKid extends AbstractWard
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER, nullable: false)]
     protected int $id;
 
-    #[ORM\Column(type: 'string', length: 200, nullable: false)]
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 200, nullable: false)]
     #[Assert\NotBlank]
     protected string $name;
 
-    #[ORM\Column(type: 'datetime', nullable: false)]
+    #[ORM\Column(name: 'birthDate', type: Types::DATETIME_MUTABLE, nullable: false)]
     protected DateTimeInterface $dateOfBirth;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: false)]
+    #[ORM\Column(name: 'sex', type: Types::STRING, length: 100, nullable: false)]
     protected string $sex;
 
-    #[ORM\OneToMany(targetEntity: Adult::class, mappedBy: 'kid')]
+    #[ORM\Column(name: 'active', type: Types::BOOLEAN, length: 20, nullable: false)]
+    protected bool $active;
+
+    #[ORM\OneToMany(mappedBy: 'kid', targetEntity: Adult::class)]
     protected Collection $adults;
 
     public function __construct()
@@ -100,6 +104,18 @@ abstract class AbstractKid extends AbstractWard
     public function removeAdult(Adult $adult): self
     {
         $this->adults->removeElement($adult);
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }

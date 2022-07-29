@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AdultRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'adults')]
@@ -11,13 +12,13 @@ class Adult extends AbstractMinder
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private int $id;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 255)]
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
     private string $name;
 
-    #[ORM\Column(name: 'surname', type: 'string', length: 255)]
+    #[ORM\Column(name: 'surname', type: Types::STRING, length: 255)]
     private string $surname;
 
     #[ORM\ManyToOne(targetEntity: AbstractKid::class, inversedBy: 'adults')]
