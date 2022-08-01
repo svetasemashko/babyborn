@@ -45,7 +45,6 @@ abstract class AbstractKid extends AbstractWard
     public function __construct()
     {
         $this->adults = new ArrayCollection();
-//        $this->sex = Sex::Female;
     }
 
     public function getId(): ?int

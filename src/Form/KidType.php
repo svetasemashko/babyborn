@@ -18,17 +18,15 @@ class KidType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'name',
                 'required' => true,
-                'translation_domain' => 'messages',
             ])
             ->add('sex', ChoiceType::class, [
                 'choices' => [
-                    'Male' => Sex::Male,
-                    'Female' => Sex::Female
+                    'male' => Sex::Male,
+                    'female' => Sex::Female
                 ],
                 'label' => 'sex',
                 'required' => true,
                 'translation_domain' => 'messages',
-
             ])
             ->add('dateOfBirth', DateType::class, [
                 'format' => 'yyyy-MM-dd',
