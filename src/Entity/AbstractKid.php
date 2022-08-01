@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Sex;
 use App\Repository\KidRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -32,8 +33,8 @@ abstract class AbstractKid extends AbstractWard
     #[ORM\Column(name: 'birthDate', type: Types::DATETIME_MUTABLE, nullable: false)]
     protected DateTimeInterface $dateOfBirth;
 
-    #[ORM\Column(name: 'sex', type: Types::STRING, length: 100, nullable: false)]
-    protected string $sex;
+    #[ORM\Column(name: 'sex', type: Types::STRING, length: 100, nullable: false, enumType: Sex::class)]
+    protected Sex $sex;
 
     #[ORM\Column(name: 'active', type: Types::BOOLEAN, length: 20, nullable: false)]
     protected bool $active;
@@ -44,6 +45,7 @@ abstract class AbstractKid extends AbstractWard
     public function __construct()
     {
         $this->adults = new ArrayCollection();
+//        $this->sex = Sex::Female;
     }
 
     public function getId(): ?int
@@ -75,12 +77,12 @@ abstract class AbstractKid extends AbstractWard
         return $this;
     }
 
-    public function getSex(): ?string
+    public function getSex(): Sex
     {
         return $this->sex;
     }
 
-    public function setSex(string $sex): self
+    public function setSex(Sex $sex): self
     {
         $this->sex = $sex;
 

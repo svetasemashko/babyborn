@@ -5,9 +5,9 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {% if newborn.sex == 'male' %}
+    {% if newborn.sex.value == 'male' %}
         {{ encore_entry_link_tags('boy') }}
-    {% elseif newborn.sex == 'female' %}
+    {% elseif newborn.sex.value == 'female' %}
         {{ encore_entry_link_tags('girl') }}
     {% endif %}
 {% endblock %}

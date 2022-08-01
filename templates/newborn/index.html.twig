@@ -20,7 +20,7 @@
                             <td class="ml-4">{{ newborn.id }}</td>
                             <td>{{ newborn.name }}</td>
                             <td>{{ newborn.dateOfBirth ? newborn.dateOfBirth|date('d-M-Y') : '' }}</td>
-                            <td>{{ newborn.sex|trans }}</td>
+                            <td>{{ newborn.sex.value|trans }}</td>
                             <td>
                                 <a class="btn btn-info btn text-nowrap" href="{{ path('app_newborn_show', {'id': newborn.id}) }}" role="button">{{ 'button.show'|trans }}</a>
                                 <a class="btn btn-info btn" href="{{ path('app_newborn_edit', {'id': newborn.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
