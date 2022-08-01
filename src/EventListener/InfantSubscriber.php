@@ -45,6 +45,7 @@ class InfantSubscriber implements EventSubscriberInterface
             $this->em->flush();
 
             $this->em->getConnection()->commit();
+
             $this->logger->info('Infant has been created', [
                 'infantId' => $infant->getId(),
             ]);
@@ -55,6 +56,7 @@ class InfantSubscriber implements EventSubscriberInterface
                 'code' => $exception->getCode(),
             ]);
             $this->em->getConnection()->rollBack();
+
             throw $exception;
         }
     }

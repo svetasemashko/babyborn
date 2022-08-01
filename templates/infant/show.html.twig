@@ -3,9 +3,9 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {% if infant.sex == 'male' %}
+    {% if infant.sex.value == 'male' %}
         {{ encore_entry_link_tags('boy') }}
-    {% elseif infant.sex == 'female' %}
+    {% elseif infant.sex.value == 'female' %}
         {{ encore_entry_link_tags('girl') }}
     {% endif %}
 {% endblock %}
@@ -38,7 +38,7 @@
                         </tr>
                         <tr>
                             <th>{{ 'sex'|trans }}</th>
-                            <td>{{ infant.sex|trans }}</td>
+                            <td>{{ infant.sex.value|trans }}</td>
                         </tr>
                         {% for adult in adults %}
                             <tr>

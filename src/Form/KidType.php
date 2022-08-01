@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Enum\Sex;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -15,22 +16,25 @@ class KidType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'required' => false,
                 'label' => 'name',
-                'translation_domain' => 'messages',
-            ])
-            ->add('sex', ChoiceType::class, [
-                'label' => 'sex',
-                'translation_domain' => 'messages',
-                'choices' => ['None' => null, 'Male' => 'male', 'Female' => 'female'],
                 'required' => true,
             ])
+            ->add('sex', ChoiceType::class, [
+                'choices' => [
+                    'male' => Sex::Male,
+                    'female' => Sex::Female
+                ],
+                'label' => 'sex',
+                'required' => true,
+                'translation_domain' => 'messages',
+            ])
             ->add('dateOfBirth', DateType::class, [
+                'format' => 'yyyy-MM-dd',
                 'label' => 'dateOfBirth',
+                'required' => true,
                 'translation_domain' => 'messages',
                 'html5' => false,
                 'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
                 'attr' => [
                     'class' => 'js-datepicker',
                     'data-provide' => 'datepicker',

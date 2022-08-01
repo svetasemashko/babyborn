@@ -5,9 +5,9 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    {% if newborn.sex == 'male' %}
+    {% if newborn.sex.value == 'male' %}
         {{ encore_entry_link_tags('boy') }}
-    {% elseif newborn.sex == 'female' %}
+    {% elseif newborn.sex.value == 'female' %}
         {{ encore_entry_link_tags('girl') }}
     {% endif %}
 {% endblock %}
@@ -26,7 +26,7 @@
         <div class="container-lg my-5">
             <div class="row">
                 <div class="col-sm">
-                    <img src="{{ newborn.sex == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300" >
+                    <img src="{{ newborn.sex.value == 'male' ? asset('images/boy.png') : asset('images/girl.png') }}" height="300" >
                 </div>
                 <div class="col-sm">
                     <table>
@@ -41,7 +41,7 @@
                         </tr>
                         <tr>
                             <th>{{ 'sex'|trans }}</th>
-                            <td>{{ newborn.sex|trans }}</td>
+                            <td>{{ newborn.sex.value|trans }}</td>
                         </tr>
                         </tbody>
                     </table>
