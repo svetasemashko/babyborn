@@ -14,10 +14,10 @@ class AppScheduleBuilder implements ScheduleBuilder
             ->environments('dev')
         ;
 
-        $schedule->addCommand('app:check-is-infant')
-            ->description('Check is newborn become infant.')
-            ->everyFiveMinutes()
+//        $schedule->addCommand('app:check-is-infant')
+//            ->description('Check is newborn become infant.')
+//            ->everyFiveMinutes()
 //            ->dailyOn('11')
-        ;
+//        ;
     }
 }

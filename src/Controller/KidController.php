@@ -56,4 +56,30 @@ class KidController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}', name: '_show', methods: ['GET', 'POST'])]
+    public function show(Kid $kid): Response
+    {
+        return $this->renderForm('kid/show.html.twig', [
+            'kid' => $kid,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Kid $kid): Response
+    {
+        $form = $this->createForm(KidType::class, $kid);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->repository->add($kid, true);
+
+            return $this->redirectToRoute('app_kid_show', ['id' => $kid->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('kid/edit.html.twig', [
+            'kid' => $kid,
+            'form' => $form,
+        ]);
+    }
 }

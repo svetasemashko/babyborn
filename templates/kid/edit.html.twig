@@ -1,13 +1,13 @@
-{% extends 'newborn/base.html.twig' %}
+{% extends 'kid/base.html.twig' %}
 
-{% block title %}{{ 'editData'|trans }} {{ newborn.name ?: '' }}{% endblock %}
+{% block title %}{{ 'editData'|trans }} {{ kid.name }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
 
-    {% if newborn.sex.value == 'male' %}
+    {% if kid.sex.value == 'male' %}
         {{ encore_entry_link_tags('boy') }}
-    {% elseif newborn.sex.value == 'female' %}
+    {% elseif kid.sex.value == 'female' %}
         {{ encore_entry_link_tags('girl') }}
     {% endif %}
 {% endblock %}
@@ -18,20 +18,20 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ path('app_newborn_index') }}">{{ 'newborns'|trans }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ newborn.name }}</li>
+                <li class="breadcrumb-item"><a href="{{ path('app_infant_index') }}">{{ 'infants'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ kid.name }}</li>
             </ol>
         </nav>
-        <a class="btn btn-info" href="{{ path('app_newborn_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
+        <a class="btn btn-info" href="{{ path('app_infant_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
         <div class="container-lg my-5">
             <div class="row">
                 <div class="col-4 mb-2">
-                    {{ include('newborn/_form.html.twig', {'button_label': 'button.update'}) }}
+                    {{ include('kid/_form.html.twig', {'button_label': 'button.update'}) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-4 mb-2">
-                    {{ include('newborn/_delete_form.html.twig') }}
+{#                    {{ include('infant/_delete_form.html.twig') }}#}
                 </div>
             </div>
         </div>
