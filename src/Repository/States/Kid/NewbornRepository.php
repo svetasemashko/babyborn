@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\States\Kid;
 
-use App\Entity\Newborn;
-use DateTime;
+use App\Entity\States\Kid\Newborn;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,22 +37,5 @@ class NewbornRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
-    }
-
-    /**
-     * @param DateTime $date Date to become infant
-     *
-     * @return Newborn[] Returns an array of Newborn objects
-     */
-    public function findByDateOfBecameInfant(DateTime $date): array
-    {
-        return $this->createQueryBuilder('k')
-            ->andWhere('k.dateOfBirth < :date')
-            ->andWhere('k.active = :active')
-            ->setParameter('date', $date)
-            ->setParameter('active', true)
-            ->getQuery()
-            ->getResult()
-        ;
     }
 }

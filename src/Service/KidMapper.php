@@ -2,21 +2,25 @@
 
 namespace App\Service;
 
-
-use App\Entity\AbstractKid;
+use App\Entity\States\Kid\State;
 use App\Enum\InfantEnum;
+use App\Repository\KidRepository;
 
 class KidMapper
 {
+    public function __construct(
+        public KidRepository $repository,
+    ) {}
+
     public function identifyByDateOfBirth(\DateTimeInterface $dateOfBirth): string
     {
         $dateToBecameInfant = new \DateTime();
         $dateToBecameInfant->modify(InfantEnum::getIntervalToBecomeInfant());
 
         if ($dateOfBirth < $dateToBecameInfant) {
-            return AbstractKid::INFANT;
+            return State::INFANT;
         }
 
-        return AbstractKid::NEWBORN;
+        return State::NEWBORN;
     }
 }

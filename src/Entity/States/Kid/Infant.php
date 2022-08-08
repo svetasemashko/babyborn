@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\States\Kid;
 
+use App\Repository\Kid\InfantRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\InfantRepository;
 
 #[ORM\Entity(repositoryClass: InfantRepository::class)]
-class Infant extends AbstractKid
+class Infant extends State
 {
 }

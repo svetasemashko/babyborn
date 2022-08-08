@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Adult;
-use App\Entity\Infant;
+use App\Entity\States\Kid\Infant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

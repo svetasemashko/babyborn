@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Infant;
-use App\Entity\Newborn;
+use App\Entity\Kid;
+use App\Entity\States\Kid\Infant;
+use App\Entity\States\Kid\Newborn;
 use App\Form\KidType;
 use App\Repository\KidRepository;
+use App\Repository\States\Kid\StateRepository;
 use App\Service\KidMapper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +19,7 @@ class KidController extends AbstractController
 {
     public function __construct(
         public KidRepository $repository,
+        public StateRepository $stateRepository,
     ) {}
 
     #[Route('/new', name: '_new', methods: ['GET', 'POST'])]
@@ -28,19 +31,23 @@ class KidController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $kidGroup = $kidMapper->identifyByDateOfBirth($data['dateOfBirth']);
+            $kidState = $kidMapper->identifyByDateOfBirth($data['dateOfBirth']);
 
-            $kid = match ($kidGroup) {
+            /** @var Newborn|Infant $state */
+            $state = match ($kidState) {
                 'newborn' => new Newborn(),
                 'infant' => new Infant(),
             };
+            $kid = new Kid($state);
+
             $kid
                 ->setName($data['name'])
                 ->setDateOfBirth($data['dateOfBirth'])
                 ->setSex($data['sex'])
-                ->setActive(true);
+            ;
 
             $this->repository->add($kid, true);
+            $this->stateRepository->add($state, true);
 
             return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
