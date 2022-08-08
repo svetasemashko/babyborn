@@ -1,62 +1,60 @@
-{% extends 'infant/base.html.twig' %}
+{% extends 'kid/base.html.twig' %}
+
+{% block title %}{{ kid.name ?: 'kid'|trans }}{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
 
-    {% if infant.sex.value == 'male' %}
+    {% if kid.sex.value == 'male' %}
         {{ encore_entry_link_tags('boy') }}
-    {% elseif infant.sex.value == 'female' %}
+    {% elseif kid.sex.value == 'female' %}
         {{ encore_entry_link_tags('girl') }}
     {% endif %}
 {% endblock %}
 
 {% block body %}
     <div class="container-lg my-5">
-        <h2>{{ infant.name}}</h2>
+        <h2>{{ kid.name ?: 'kid'|trans }}</h2>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ path('app_infant_index') }}">{{ 'infants'|trans }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ infant.name }}</li>
+                <li class="breadcrumb-item"><a href="{{ path('app_newborn_index') }}">{{ 'newborns'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ kid.name }}</li>
             </ol>
         </nav>
-        <a class="btn btn-info" href="{{ path('app_infant_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
+        <a class="btn btn-info" href="{{ path('app_newborn_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
         <div class="container-lg my-5">
             <div class="row">
                 <div class="col-sm">
+                    <img src="{{ kid.sex.value == 'male' ? asset('images/kids/boy.png') : asset('images/kids/girl.png') }}" alt="kid picture" height="300">
                 </div>
                 <div class="col-sm">
                     <table>
                         <tbody>
                         <tr>
                             <th>{{ 'name'|trans }}</th>
-                            <td>{{ infant.name }}</td>
+                            <td>{{ kid.name }}</td>
                         </tr>
                         <tr>
                             <th>{{ 'dateOfBirth'|trans }}</th>
-                            <td>{{ infant.dateOfBirth ? infant.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ kid.dateOfBirth ? kid.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
                         </tr>
                         <tr>
                             <th>{{ 'sex'|trans }}</th>
-                            <td>{{ infant.sex.value|trans }}</td>
+                            <td>{{ kid.sex.value|trans }}</td>
                         </tr>
-                        {% for adult in adults %}
-                            <tr>
-                                <th>{{ 'adult'|trans }}</th>
-                                <td>{{ adult.name }} {{ adult.surname }}</td>
-                            </tr>
-                        {% endfor %}
                         </tbody>
                     </table>
                     <div class="row">
                         <div class="col-sm">
-                            <a class="btn btn-info btn-block" href="{{ path('app_infant_edit', {'id': infant.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
+                            <a class="btn btn-info btn-block" href="{{ path('app_kid_edit', {'id': kid.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
                         </div>
                         <div class="col-sm">
-                            {{ include('infant/_delete_form.html.twig') }}
+{#                            {{ include('newborn/_delete_form.html.twig') }}#}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}

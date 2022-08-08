@@ -2,7 +2,7 @@
 
 namespace App\Event;
 
-use App\Entity\Newborn;
+use App\Entity\Kid;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class BecameInfantEvent extends Event
@@ -10,11 +10,11 @@ class BecameInfantEvent extends Event
     public const NAME = 'became.infant';
 
     public function __construct(
-        private Newborn $newborn,
+        private Kid $kid,
     ) {}
 
-    public function getNewborn(): Newborn
+    public function getKid(): Kid
     {
-        return $this->newborn;
+        return $this->kid;
     }
 }

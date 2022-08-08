@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use App\Entity\Infant;
+use App\Entity\States\Kid\Infant;
 use App\Event\BecameInfantEvent;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,28 +30,22 @@ class InfantSubscriber implements EventSubscriberInterface
     {
         $this->em->getConnection()->beginTransaction();
         try {
-            $newborn = $event->getNewborn();
+            $kid = $event->getKid();
 
             $infant = new Infant();
-            $infant
-                ->setName($newborn->getName())
-                ->setDateOfBirth($newborn->getDateOfBirth())
-                ->setSex($newborn->getSex())
-                ->setActive(true);
-            $newborn->setActive(false);
+            $kid->transitionTo($infant);
 
             $this->em->persist($infant);
-            $this->em->persist($newborn);
+            $this->em->persist($kid);
             $this->em->flush();
 
             $this->em->getConnection()->commit();
 
-            $this->logger->info('Infant has been created', [
-                'infantId' => $infant->getId(),
+            $this->logger->info('Kid state has been changed to Infant', [
+                'kidId' => $kid->getId(),
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->logger->error('Event has been failed. Rolled back', [
-                'newbornId' => $newborn->getId(),
                 'error' => $exception->getMessage(),
                 'code' => $exception->getCode(),
             ]);

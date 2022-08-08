@@ -2,11 +2,13 @@
 
 namespace App\Command;
 
-use App\Entity\Newborn;
+use App\Entity\Kid;
 use App\Enum\InfantEnum;
 use App\Event\BecameInfantEvent;
-use App\Repository\NewbornRepository;
+use App\Repository\KidRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Monolog\Logger;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -16,7 +18,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'app:check-is-infant',
-    description: 'Check is age suits for infant.',
+    description: 'Check is age suits to become infant.',
     hidden: false,
 )]
 class CheckIsInfantCommand extends Command
@@ -32,21 +34,20 @@ class CheckIsInfantCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var NewbornRepository $newbornRepository */
-        $newbornRepository = $this->entityManager->getRepository(Newborn::class);
+        /** @var KidRepository $repository */
+        $repository = $this->entityManager->getRepository(Kid::class);
 
-        $dateToBecameInfant = new \DateTime();
+        $dateToBecameInfant = new DateTime();
         $dateToBecameInfant->modify(InfantEnum::getIntervalToBecomeInfant());
 
-        $newborns = $newbornRepository->findByDateOfBecameInfant($dateToBecameInfant);
+        $kidsToBecomeInfant = $repository->findByDateOfBecameInfant($dateToBecameInfant);
 
-        foreach ($newborns as $newborn) {
+        foreach ($kidsToBecomeInfant as $kid) {
             try {
-                $event = new BecameInfantEvent($newborn);
+                $event = new BecameInfantEvent($kid);
                 $this->dispatcher->dispatch($event, BecameInfantEvent::NAME);
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 $this->logger->error('Dispatching event has been failed', [
-                    'newbornId' => $newborn->getId(),
                     'error' => $exception->getMessage(),
                     'code' => $exception->getCode(),
                 ]);

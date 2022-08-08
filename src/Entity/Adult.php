@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\AdultRepository;
+use App\Entity\States\Kid\Infant;
+use App\Entity\States\Kid\Newborn;
+use App\Repository\Kid\AdultRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,7 +23,7 @@ class Adult extends AbstractMinder
     #[ORM\Column(name: 'surname', type: Types::STRING, length: 255)]
     private string $surname;
 
-    #[ORM\ManyToOne(targetEntity: AbstractKid::class, inversedBy: 'adults')]
+    #[ORM\ManyToOne(targetEntity: Kid::class, inversedBy: 'adults')]
     #[ORM\JoinColumn(name: 'kid_id', referencedColumnName: 'id')]
     private Newborn|Infant $kid;
 

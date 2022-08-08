@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\States\Kid\State;
 use App\Enum\Sex;
 use App\Repository\KidRepository;
 use DateTimeInterface;
@@ -13,38 +14,40 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: KidRepository::class)]
 #[ORM\Table(name: 'kids')]
-#[ORM\InheritanceType('SINGLE_TABLE')]
-#[ORM\DiscriminatorColumn(name: 'discr', type: Types::STRING, )]
-#[ORM\DiscriminatorMap([self::NEWBORN => Newborn::class, self::INFANT => Infant::class])]
-abstract class AbstractKid extends AbstractWard
+class Kid extends AbstractWard
 {
-    public const NEWBORN = 'newborn';
-    public const INFANT = 'infant';
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id', type: Types::INTEGER, nullable: false)]
-    protected int $id;
+    private int $id;
 
     #[ORM\Column(name: 'name', type: Types::STRING, length: 200, nullable: false)]
     #[Assert\NotBlank]
-    protected string $name;
+    private string $name;
 
     #[ORM\Column(name: 'birthDate', type: Types::DATETIME_MUTABLE, nullable: false)]
-    protected DateTimeInterface $dateOfBirth;
+    private DateTimeInterface $dateOfBirth;
 
     #[ORM\Column(name: 'sex', type: Types::STRING, length: 100, nullable: false, enumType: Sex::class)]
-    protected Sex $sex;
-
-    #[ORM\Column(name: 'active', type: Types::BOOLEAN, length: 20, nullable: false)]
-    protected bool $active;
+    private Sex $sex;
 
     #[ORM\OneToMany(mappedBy: 'kid', targetEntity: Adult::class)]
-    protected Collection $adults;
+    private Collection $adults;
 
-    public function __construct()
+    #[ORM\OneToMany(mappedBy: 'kid', targetEntity: State::class)]
+    private Collection $states;
+
+    public function __construct(State $state)
     {
         $this->adults = new ArrayCollection();
+        $this->states = new ArrayCollection();
+        $this->transitionTo($state);
+    }
+
+    public function transitionTo(State $state): void
+    {
+        $this->state = $state;
+        $this->state->setKid($this);
     }
 
     public function getId(): ?int
@@ -109,14 +112,32 @@ abstract class AbstractKid extends AbstractWard
         return $this;
     }
 
-    public function isActive(): ?bool
+    /**
+     * @return Collection<int, State>
+     */
+    public function getStates(): Collection
     {
-        return $this->active;
+        return $this->states;
     }
 
-    public function setActive(bool $active): self
+    public function addState(State $state): self
     {
-        $this->active = $active;
+        if (!$this->states->contains($state)) {
+            $this->states[] = $state;
+            $state->setKid($this);
+        }
+
+        return $this;
+    }
+
+    public function removeState(State $state): self
+    {
+        if ($this->states->removeElement($state)) {
+            // set the owning side to null (unless already changed)
+            if ($state->getKid() === $this) {
+                $state->setKid(null);
+            }
+        }
 
         return $this;
     }

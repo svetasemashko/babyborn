@@ -2,8 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Infant;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\States\Kid\Infant;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
