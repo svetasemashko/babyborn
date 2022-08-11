@@ -7,7 +7,6 @@ use App\Entity\States\Kid\Infant;
 use App\Entity\States\Kid\Newborn;
 use App\Form\KidType;
 use App\Repository\KidRepository;
-use App\Repository\States\Kid\StateRepository;
 use App\Service\KidMapper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +18,6 @@ class KidController extends AbstractController
 {
     public function __construct(
         public KidRepository $repository,
-        public StateRepository $stateRepository,
     ) {}
 
     #[Route('/new', name: '_new', methods: ['GET', 'POST'])]
@@ -47,7 +45,6 @@ class KidController extends AbstractController
             ;
 
             $this->repository->add($kid, true);
-            $this->stateRepository->add($state, true);
 
             return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }

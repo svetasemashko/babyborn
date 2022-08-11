@@ -22,7 +22,7 @@ abstract class State
     #[ORM\Column(name: 'id', type: Types::INTEGER, nullable: false)]
     protected int $id;
 
-    #[ORM\ManyToOne(targetEntity: Kid::class, inversedBy: 'states')]
+    #[ORM\OneToOne(inversedBy: 'state', targetEntity: Kid::class)]
     protected Kid $kid;
 
     public function getId(): ?int

@@ -35,7 +35,6 @@ class InfantSubscriber implements EventSubscriberInterface
             $infant = new Infant();
             $kid->transitionTo($infant);
 
-            $this->em->persist($infant);
             $this->em->persist($kid);
             $this->em->flush();
 
