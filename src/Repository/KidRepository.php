@@ -49,7 +49,7 @@ class KidRepository extends ServiceEntityRepository
     {
         $infantQb = $this->createQueryBuilder('i')
             ->select('i.id')
-            ->leftJoin('i.states', 's')
+            ->leftJoin('i.state', 's')
             ->andWhere('s INSTANCE OF :infant_class')
             ->setParameter('infant_class', $this->getEntityManager()->getClassMetadata(
                 'App\Entity\States\Kid\Infant'

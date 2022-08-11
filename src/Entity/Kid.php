@@ -34,13 +34,12 @@ class Kid extends AbstractWard
     #[ORM\OneToMany(mappedBy: 'kid', targetEntity: Adult::class)]
     private Collection $adults;
 
-    #[ORM\OneToMany(mappedBy: 'kid', targetEntity: State::class)]
-    private Collection $states;
+    #[ORM\OneToOne(mappedBy: 'kid', targetEntity: State::class, cascade: ['persist'])]
+    private State $state;
 
     public function __construct(State $state)
     {
         $this->adults = new ArrayCollection();
-        $this->states = new ArrayCollection();
         $this->transitionTo($state);
     }
 
@@ -112,32 +111,22 @@ class Kid extends AbstractWard
         return $this;
     }
 
-    /**
-     * @return Collection<int, State>
-     */
-    public function getStates(): Collection
+    public function getState(): ?State
     {
-        return $this->states;
+        return $this->state;
     }
 
-    public function addState(State $state): self
+    public function setState(?State $state): self
     {
-        if (!$this->states->contains($state)) {
-            $this->states[] = $state;
+        if ($state === null && $this->state !== null) {
+            $this->state->setKid(null);
+        }
+
+        if ($state !== null && $state->getKid() !== $this) {
             $state->setKid($this);
         }
 
-        return $this;
-    }
-
-    public function removeState(State $state): self
-    {
-        if ($this->states->removeElement($state)) {
-            // set the owning side to null (unless already changed)
-            if ($state->getKid() === $this) {
-                $state->setKid(null);
-            }
-        }
+        $this->state = $state;
 
         return $this;
     }
