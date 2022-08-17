@@ -2,7 +2,9 @@
 
 namespace App\Repository\States\Kid;
 
+use App\Entity\Kid;
 use App\Entity\States\Kid\Newborn;
+use App\Entity\States\Kid\State;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,5 +39,10 @@ class NewbornRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getActualNewborns(): array
+    {
+        return [];
     }
 }

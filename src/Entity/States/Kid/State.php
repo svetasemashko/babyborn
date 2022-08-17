@@ -25,6 +25,8 @@ abstract class State
     #[ORM\OneToOne(inversedBy: 'state', targetEntity: Kid::class)]
     protected Kid $kid;
 
+    abstract public function grow(): void;
+
     public function getId(): ?int
     {
         return $this->id;
