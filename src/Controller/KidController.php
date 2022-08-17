@@ -8,10 +8,12 @@ use App\Entity\States\Kid\Newborn;
 use App\Form\KidType;
 use App\Repository\KidRepository;
 use App\Service\KidMapper;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 #[Route('/kid', name: 'app_kid')]
 class KidController extends AbstractController
@@ -78,5 +80,23 @@ class KidController extends AbstractController
             'kid' => $kid,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/delete/{id}', name: '_delete', methods: ['POST'])]
+    public function delete(Request $request, Kid $kid): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $kid->getId(), $request->request->get('_token'))) {
+            try {
+                $this->repository->remove($kid, true);
+            } catch (Exception $exception) {
+                throw new MethodNotAllowedException(
+                    [],
+                    sprintf('Something goes wrong. %s', $exception->getMessage()),
+                    $exception->getCode()
+                );
+            }
+        }
+
+        return $this->render('main/index.html.twig', []);
     }
 }

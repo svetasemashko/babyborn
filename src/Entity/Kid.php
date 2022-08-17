@@ -34,7 +34,7 @@ class Kid extends AbstractWard
     #[ORM\OneToMany(mappedBy: 'kid', targetEntity: Adult::class)]
     private Collection $adults;
 
-    #[ORM\OneToOne(mappedBy: 'kid', targetEntity: State::class, cascade: ['persist'])]
+    #[ORM\OneToOne(mappedBy: 'kid', targetEntity: State::class, cascade: ['persist', 'remove'])]
     private State $state;
 
     public function __construct(State $state)
