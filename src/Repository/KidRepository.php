@@ -47,25 +47,15 @@ class KidRepository extends ServiceEntityRepository
      */
     public function findByDateOfBecameInfant(DateTime $date): array
     {
-        $infantQb = $this->createQueryBuilder('i')
-            ->select('i.id')
-            ->leftJoin('i.state', 's')
-            ->andWhere('s INSTANCE OF :infant_class')
-            ->setParameter('infant_class', $this->getEntityManager()->getClassMetadata(
-                'App\Entity\States\Kid\Infant'
-            ))
-        ;
-
-        $kidQb = $this->createQueryBuilder('k');
-
-        $kidQb
+        return $this->createQueryBuilder('k')
+            ->leftJoin('k.state', 's')
             ->andWhere('k.dateOfBirth < :date')
-            ->andWhere($kidQb->expr()->notIn('k.id', ':infants'))
+            ->andWhere('s INSTANCE OF :newborns')
             ->setParameter('date', $date)
-//            TODO Refactoring
-            ->setParameter('infants', $infantQb->getQuery()->getArrayResult())
-        ;
-
-        return $kidQb->getQuery()->getResult();
+            ->setParameter('newborns', $this->getEntityManager()->getClassMetadata(
+                'App\Entity\States\Kid\Newborn'
+            ))
+            ->getQuery()
+            ->getResult();
     }
 }
