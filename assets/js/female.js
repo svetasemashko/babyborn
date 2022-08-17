@@ -1,0 +1,2 @@
+import '../styles/female.css';
+

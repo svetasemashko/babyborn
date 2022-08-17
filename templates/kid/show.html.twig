@@ -4,12 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-
-    {% if kid.sex.value == 'male' %}
-        {{ encore_entry_link_tags('boy') }}
-    {% elseif kid.sex.value == 'female' %}
-        {{ encore_entry_link_tags('girl') }}
-    {% endif %}
+    {{ encore_entry_link_tags(kid.sex.value) }}
 {% endblock %}
 
 {% block body %}
