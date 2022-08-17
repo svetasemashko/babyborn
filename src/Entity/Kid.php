@@ -130,4 +130,9 @@ class Kid extends AbstractWard
 
         return $this;
     }
+
+    public function becomeOlder(): void
+    {
+        $this->state->grow();
+    }
 }

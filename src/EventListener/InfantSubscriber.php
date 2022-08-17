@@ -2,7 +2,6 @@
 
 namespace App\EventListener;
 
-use App\Entity\States\Kid\Infant;
 use App\Event\BecameInfantEvent;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,8 +31,8 @@ class InfantSubscriber implements EventSubscriberInterface
         try {
             $kid = $event->getKid();
 
-            $infant = new Infant();
-            $kid->transitionTo($infant);
+            $this->em->remove($kid->getState());
+            $kid->becomeOlder();
 
             $this->em->persist($kid);
             $this->em->flush();
