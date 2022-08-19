@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\States\Kid\Infant;
-use App\Entity\States\Kid\Newborn;
 use App\Repository\Kid\AdultRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +23,7 @@ class Adult extends AbstractMinder
 
     #[ORM\ManyToOne(targetEntity: Kid::class, inversedBy: 'adults')]
     #[ORM\JoinColumn(name: 'kid_id', referencedColumnName: 'id')]
-    private Newborn|Infant $kid;
+    private Kid $kid;
 
     public function getId(): ?int
     {
@@ -56,12 +54,12 @@ class Adult extends AbstractMinder
         return $this;
     }
 
-    public function getKid(): Newborn|Infant
+    public function getKid(): Kid
     {
         return $this->kid;
     }
 
-    public function setKid(Newborn|Infant $kid): self
+    public function setKid(Kid $kid): self
     {
         $this->kid = $kid;
 

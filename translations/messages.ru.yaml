@@ -20,13 +20,14 @@ toddler:     Тоддлер
 toddlers:    Тоддлеры
 
 button:
-  backToList: Назад к списку
-  create:     Добавить
-  createKid:  Добавить нового ребенка
-  delete:     Удалить
-  edit:       Редактировать
-  show:       Показать
-  update:     Обновить
+  backToList:  Назад к списку
+  create:      Добавить
+  createAdult: Добавить нового взрослого
+  createKid:   Добавить нового ребенка
+  delete:      Удалить
+  edit:        Редактировать
+  show:        Показать
+  update:      Обновить
 
 confirm:
   delete: Вы уверены, что хотите удалить?

@@ -20,13 +20,14 @@ toddler:     Toddler
 toddlers:    Toddlers
 
 button:
-  backToList: Back to list
-  create:     Create
-  createKid:  Create new kid
-  delete:     Delete
-  edit:       Edit
-  show:       Show
-  update:     Update
+  backToList:  Back to list
+  create:      Create
+  createAdult: Create new adult
+  createKid:   Create new kid
+  delete:      Delete
+  edit:        Edit
+  show:        Show
+  update:      Update
 
 confirm:
   delete: Are you sure you want to delete this item?
