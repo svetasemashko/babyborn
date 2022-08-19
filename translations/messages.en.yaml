@@ -1,5 +1,6 @@
 actions:     Actions
 adult:       Parent
+adults:      Parents
 createData:  Create data
 dateOfBirth: Date of Birth
 editData:    Edit data
@@ -34,4 +35,5 @@ confirm:
 
 moments:         Save lovely moments
 noInfantsFound:  No infants found
-noNewbornsFound: No records found
+noNewbornsFound: No newborns found
+noAdultsFound:   No parents found

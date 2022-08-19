@@ -1,5 +1,6 @@
 actions:     Действия
 adult:       Родитель
+adults:      Родители
 createData:  Создать нового
 dateOfBirth: Дата рождения
 editData:    Редактировать данные
@@ -35,3 +36,4 @@ confirm:
 moments:         Сохраняй лучшие моменты
 noInfantsFound:  Инфанты не найдены
 noNewbornsFound: Новорожденные не найдены
+noAdultsFound:   Родители не найдены
