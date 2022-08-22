@@ -6,6 +6,7 @@ use App\Entity\Kid;
 use App\Entity\States\Kid\Infant;
 use App\Entity\States\Kid\Newborn;
 use App\Form\KidType;
+use App\Repository\AdultRepository;
 use App\Repository\KidRepository;
 use App\Service\KidMapper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,10 +56,13 @@ class KidController extends AbstractController
     }
 
     #[Route('/{id}', name: '_show', methods: ['GET', 'POST'])]
-    public function show(Kid $kid): Response
+    public function show(Kid $kid, AdultRepository $adultRepository): Response
     {
+        $adults = $adultRepository->findBy(['kid' => $kid->getId()]);
+
         return $this->renderForm('kid/show.html.twig', [
             'kid' => $kid,
+            'adults' => $adults,
         ]);
     }
 

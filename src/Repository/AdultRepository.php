@@ -39,16 +39,4 @@ class AdultRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-    public function findAllByInfant(Infant $infant): array
-    {
-        return $this->createQueryBuilder('a')
-            ->leftJoin('a.newborns', 'n')
-            ->leftJoin('n.infant', 'i')
-            ->andWhere('i.id = :infant')
-            ->setParameter('infant', $infant)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
 }
