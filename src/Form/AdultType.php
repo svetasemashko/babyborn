@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Adult;
+use App\Entity\Kid;
 use App\Repository\KidRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -17,6 +18,8 @@ class AdultType extends AbstractType
         /** @var KidRepository $kidRepository */
         $kidRepository = $options['kidRepository'];
 
+        $kidsCollection = $kidRepository->findAll();
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'name',
@@ -26,7 +29,10 @@ class AdultType extends AbstractType
                 'translation_domain' => 'messages',
             ])
             ->add('kid', ChoiceType::class, [
-                'choices' => $kidRepository->findAll(),
+                'choice_label' => function(?Kid $kid) {
+                    return $kid ? $kid->getName() : '';
+                },
+                'choices' => $kidsCollection,
                 'label' => 'kid',
                 'required' => true,
             ])
