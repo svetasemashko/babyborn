@@ -101,6 +101,8 @@ class KidController extends AbstractController
             }
         }
 
-        return $this->render('main/index.html.twig', []);
+        return $this->render('main/index.html.twig', [
+            'kid_name' => $kid->getName(),
+        ]);
     }
 }

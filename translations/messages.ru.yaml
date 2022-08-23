@@ -33,6 +33,7 @@ button:
 confirm:
   delete: Вы уверены, что хотите удалить?
 
+isRemoved:       удален
 moments:         Сохраняй лучшие моменты
 noInfantsFound:  Инфанты не найдены
 noNewbornsFound: Новорожденные не найдены

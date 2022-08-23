@@ -25,7 +25,6 @@ Encore
     .addEntry('infant', './assets/js/infant.js')
     .addEntry('male', './assets/js/male.js')
     .addEntry('female', './assets/js/female.js')
-    .addEntry('female', './assets/js/success.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

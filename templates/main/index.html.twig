@@ -11,6 +11,9 @@
         <h2>{{ 'moments'|trans }}</h2>
 
         <div class="container-lg my-5">
+            {% if kid_name is defined %}
+                {% include 'blocks/success.html.twig' %}
+            {% endif %}
             <div class="row">
                 <div class="col mb-5 d-flex justify-content-end">
                     <a class="btn btn-info btn-lg" href="{{ path('app_kid_new')}}" role="button">{{ 'button.createKid'|trans }}</a>
