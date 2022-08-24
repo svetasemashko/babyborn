@@ -9,10 +9,12 @@ use App\Form\KidType;
 use App\Repository\AdultRepository;
 use App\Repository\KidRepository;
 use App\Service\KidMapper;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 #[Route('/kid', name: 'app_kid')]
 class KidController extends AbstractController
@@ -75,12 +77,35 @@ class KidController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->repository->add($kid, true);
 
-            return $this->redirectToRoute('app_kid_show', ['id' => $kid->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_kid_show',
+                ['id' => $kid->getId()],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm('kid/edit.html.twig', [
             'kid' => $kid,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/delete/{id}', name: '_delete', methods: ['POST'])]
+    public function delete(Request $request, Kid $kid): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $kid->getId(), $request->request->get('_token'))) {
+            try {
+                $this->repository->remove($kid, true);
+            } catch (Exception $exception) {
+                throw new MethodNotAllowedException(
+                    [],
+                    sprintf('Something goes wrong. %s', $exception->getMessage()),
+                    $exception->getCode()
+                );
+            }
+            $this->addFlash('success', 'recordIsRemoved');
+        }
+
+        return $this->redirectToRoute('app_main');
     }
 }
