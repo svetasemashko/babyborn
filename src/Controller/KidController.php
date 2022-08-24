@@ -77,7 +77,11 @@ class KidController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->repository->add($kid, true);
 
-            return $this->redirectToRoute('app_kid_show', ['id' => $kid->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(
+                'app_kid_show',
+                ['id' => $kid->getId()],
+                Response::HTTP_SEE_OTHER
+            );
         }
 
         return $this->renderForm('kid/edit.html.twig', [
@@ -99,10 +103,9 @@ class KidController extends AbstractController
                     $exception->getCode()
                 );
             }
+            $this->addFlash('success', 'recordIsRemoved');
         }
 
-        return $this->render('main/index.html.twig', [
-            'kid_name' => $kid->getName(),
-        ]);
+        return $this->redirectToRoute('app_main');
     }
 }
