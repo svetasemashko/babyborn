@@ -16,6 +16,7 @@ name:        Name
 newborn:     Newborn
 newborns:    Newborns
 sex:         Sex
+statistics:  Statistics
 surname:     Surname
 toddler:     Toddler
 toddlers:    Toddlers
