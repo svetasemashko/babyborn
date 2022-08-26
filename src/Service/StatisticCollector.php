@@ -2,8 +2,17 @@
 
 namespace App\Service;
 
+use App\Entity\Adult;
+use App\Entity\Kid;
+use Doctrine\ORM\EntityManagerInterface;
+
 class StatisticCollector
 {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+    ) {
+    }
+
     public function getAllData(): array
     {
         $data['kids'] = $this->getAllKids();
@@ -14,11 +23,28 @@ class StatisticCollector
 
     public function getAllKids(): array
     {
-        return [];
+        $kids  = $this->entityManager->getRepository(Kid::class)->findAll();
+
+        $kidNames = [];
+        /** @var Kid $kid */
+        foreach ($kids as $kid) {
+            $kidNames[] = $kid->getName();
+        }
+
+        return $kidNames;
     }
 
     public function getAllAdults(): array
     {
-        return [];
+        $adults  = $this->entityManager->getRepository(Adult::class)->findAll();
+
+        $adultNames = [];
+
+        /** @var Adult $adult */
+        foreach ($adults as $adult) {
+            $adultNames[] = sprintf('%s %s', $adult->getSurname(), $adult->getName());
+        }
+
+        return $adultNames;
     }
 }
