@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Service\StatisticCollector;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +16,8 @@ class MainController extends AbstractController
     }
 
     #[Route('/statistics', name: 'app_stats')]
-    public function getStatistics(EntityManagerInterface $entityManager): Response
+    public function getStatistics(StatisticCollector $statisticCollector): Response
     {
-        $statisticCollector = new StatisticCollector($entityManager);
-
         return $this->render('main/statistics.html.twig', $statisticCollector->getAllData());
     }
 }

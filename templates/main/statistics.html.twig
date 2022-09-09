@@ -11,8 +11,10 @@
         <h2>{{ 'statistics'|trans }}</h2>
 
         <div class="container-lg my-5">
-            <div class="row">
+            <div class="row my-5">
                 <div class="col-sm">
+                    <h4>{{ 'kids'|trans }}:</h4>
+
                     {% for kid in kids %}
                         <div class="row">
                             {{ kid }}
@@ -20,6 +22,8 @@
                     {% endfor %}
                 </div>
                 <div class="col-sm">
+                    <h4>{{ 'adults'|trans }}:</h4>
+
                     {% for adult in adults %}
                         <div class="row">
                             {{ adult }}
@@ -27,6 +31,21 @@
                     {% endfor %}
                 </div>
             </div>
+            <div class="row my-5">
+                <div class="col-sm">
+                    {% if youngestKids is defined %}
+                        <h4>{{ 'youngest'|trans }}</h4>
+                        {% for youngest in youngestKids %}
+                            <div class="row">
+                                {{ youngest }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+
+
         </div>
     </div>
 {% endblock %}

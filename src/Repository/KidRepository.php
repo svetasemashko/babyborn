@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Kid;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -57,5 +59,25 @@ class KidRepository extends ServiceEntityRepository
             ))
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllByMinAge(): Collection
+    {
+        $qb = $this->createQueryBuilder('k');
+
+        $subQb = $this->createQueryBuilder('kid');
+
+        $kids = $subQb
+            ->having(
+                $subQb->expr()->in(
+                    'kid.dateOfBirth',
+                    $qb->select($qb->expr()->max('k.dateOfBirth'))->getDQL()
+                )
+            )
+            ->getQuery()
+            ->getResult();
+
+
+        return new ArrayCollection($kids);
     }
 }

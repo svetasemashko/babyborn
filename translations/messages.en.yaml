@@ -20,6 +20,7 @@ statistics:  Statistics
 surname:     Surname
 toddler:     Toddler
 toddlers:    Toddlers
+youngest:    The youngest kid
 
 button:
   backToList:  Back to list

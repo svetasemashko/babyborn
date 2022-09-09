@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Adult;
 use App\Entity\Kid;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 class StatisticCollector
@@ -17,6 +18,7 @@ class StatisticCollector
     {
         $data['kids'] = $this->getAllKids();
         $data['adults'] = $this->getAllAdults();
+        $data['youngestKids'] = $this->getYoungestKids();
 
         return $data;
     }
@@ -46,5 +48,18 @@ class StatisticCollector
         }
 
         return $adultNames;
+    }
+
+    public function getYoungestKids(): array
+    {
+        $youngestKids = $this->entityManager->getRepository(Kid::class)->findAllByMinAge();
+
+        $kids = [];
+        /** @var Kid $kid */
+        foreach ($youngestKids as $kid) {
+            $kids[] = $kid->getName();
+        }
+
+        return $kids;
     }
 }
