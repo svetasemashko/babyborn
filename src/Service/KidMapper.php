@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Entity\States\Kid\State;
 use App\Enum\InfantEnum;
 use App\Repository\KidRepository;
+use DateTime;
+use DateTimeInterface;
 
 class KidMapper
 {
@@ -12,9 +14,9 @@ class KidMapper
         public KidRepository $repository,
     ) {}
 
-    public function identifyByDateOfBirth(\DateTimeInterface $dateOfBirth): string
+    public function identifyByDateOfBirth(DateTimeInterface $dateOfBirth): string
     {
-        $dateToBecameInfant = new \DateTime();
+        $dateToBecameInfant = new DateTime();
         $dateToBecameInfant->modify(InfantEnum::getIntervalToBecomeInfant());
 
         if ($dateOfBirth < $dateToBecameInfant) {

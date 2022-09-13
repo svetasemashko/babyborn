@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Adult;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,5 +39,16 @@ class AdultRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllWithKids(): Collection
+    {
+        $adults = $this
+            ->createQueryBuilder('a')
+            ->innerJoin('a.kid', 'k')
+            ->getQuery()
+            ->getResult();
+
+        return new ArrayCollection($adults);
     }
 }

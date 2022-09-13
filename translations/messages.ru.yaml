@@ -40,3 +40,6 @@ moments:         Сохраняй лучшие моменты
 noInfantsFound:  Инфанты не найдены
 noNewbornsFound: Новорожденные не найдены
 noAdultsFound:   Родители не найдены
+
+statistic:
+  adultsOfBornThisMonth: Родители детей, рожденных в этом месяце
