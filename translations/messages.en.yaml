@@ -40,3 +40,6 @@ moments:         Save lovely moments
 noInfantsFound:  No infants found
 noNewbornsFound: No newborns found
 noAdultsFound:   No parents found
+
+statistic:
+  adultsOfBornThisMonth: Adults who has kids born this month

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Adult;
 use App\Entity\Kid;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -16,50 +17,61 @@ class StatisticCollector
 
     public function getAllData(): array
     {
-        $data['kids'] = $this->getAllKids();
-        $data['adults'] = $this->getAllAdults();
-        $data['youngestKids'] = $this->getYoungestKids();
+        $data['kids'] = $this->getKidNames($this->getAllKids());
+        $data['adults'] = $this->getAdultNames($this->getAllAdults());
+        $data['youngestKids'] =
+            $this->getKidNames($this->entityManager->getRepository(Kid::class)->findAllByMinAge());
+        $data['adultsOfBornThisMonth'] = $this->getAdultNames($this->getAdultsOfBornThisMonth());
 
         return $data;
     }
 
-    public function getAllKids(): array
+    public function getKidNames(ArrayCollection $kidCollection): array
     {
-        $kids  = $this->entityManager->getRepository(Kid::class)->findAll();
-
         $kidNames = [];
         /** @var Kid $kid */
-        foreach ($kids as $kid) {
+        foreach ($kidCollection as $kid) {
             $kidNames[] = $kid->getName();
         }
 
         return $kidNames;
     }
 
-    public function getAllAdults(): array
+    public function getAdultNames(ArrayCollection $adultCollection): array
     {
-        $adults  = $this->entityManager->getRepository(Adult::class)->findAll();
-
         $adultNames = [];
-
         /** @var Adult $adult */
-        foreach ($adults as $adult) {
+        foreach ($adultCollection as $adult) {
             $adultNames[] = sprintf('%s %s', $adult->getSurname(), $adult->getName());
         }
 
         return $adultNames;
     }
 
-    public function getYoungestKids(): array
+    public function getAllKids(): ArrayCollection
     {
-        $youngestKids = $this->entityManager->getRepository(Kid::class)->findAllByMinAge();
+        $kids = $this->entityManager->getRepository(Kid::class)->findAll();
 
-        $kids = [];
-        /** @var Kid $kid */
-        foreach ($youngestKids as $kid) {
-            $kids[] = $kid->getName();
-        }
+        return new ArrayCollection($kids);
+    }
 
-        return $kids;
+    public function getAllAdults(): ArrayCollection
+    {
+        $adults  = $this->entityManager->getRepository(Adult::class)->findAll();
+
+        return new ArrayCollection($adults);
+    }
+
+    public function getAdultsOfBornThisMonth(): ArrayCollection
+    {
+        $adultCollection = $this->entityManager->getRepository(Adult::class)->findAllWithKids();
+
+        return $adultCollection->filter(
+            function (Adult $adult) {
+                $thisMonth = new DateTime();
+
+                return $adult->getKid()->getDateOfBirth()->format('m') === $thisMonth->format('m');
+            }
+        );
     }
 }

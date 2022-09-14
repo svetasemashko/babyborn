@@ -43,7 +43,18 @@
                     {% endif %}
                 </div>
             </div>
-
+            <div class="row my-5">
+                <div class="col-sm">
+                    {% if adultsOfBornThisMonth is defined %}
+                        <h4>{{ 'statistic.adultsOfBornThisMonth'|trans }}</h4>
+                        {% for adult in adultsOfBornThisMonth %}
+                            <div class="row">
+                                {{ adult }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
 
 
         </div>
