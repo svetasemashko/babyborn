@@ -14,13 +14,6 @@ services:
         bind:
             $logger: '@app_logger'
 
-#    check_is_infant_command:
-#        class: App\Command\CheckIsInfantCommand
-#        arguments:
-#            - '@doctrine.orm.entity_manager'
-#            - '@event_dispatcher'
-#            - '@app_logger'
-
     app_logger:
         class: Monolog\Logger
         arguments:
