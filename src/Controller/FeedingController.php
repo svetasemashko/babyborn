@@ -15,7 +15,7 @@ class FeedingController
         $kidState = $kid->getState();
         $feeding = new Feeding();
 
-        if ($kidState instanceof Newborn::class) {
+        if ($kidState instanceof Newborn) {
             $feeding->setFeedingMethod(new BreastFeedingMethod());
         } else {
             $feeding->setFeedingMethod(new FormulaFeedingMethod());
