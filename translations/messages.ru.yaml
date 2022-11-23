@@ -29,6 +29,7 @@ button:
   createKid:   Добавить нового ребенка
   delete:      Удалить
   edit:        Редактировать
+  feedUp:      Покормить
   show:        Показать
   update:      Обновить
 

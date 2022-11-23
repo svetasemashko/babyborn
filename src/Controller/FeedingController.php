@@ -2,25 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Actions\Feedings\BreastFeedingMethod;
 use App\Entity\Actions\Feedings\Feeding;
-use App\Entity\Actions\Feedings\FormulaFeedingMethod;
 use App\Entity\Kid;
-use App\Entity\States\Kid\Newborn;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class FeedingController
+class FeedingController extends AbstractController
 {
-    public function feedUp(Kid $kid)
+    #[Route('/{id}/feed', name: 'feed', requirements: ['id' => '\d+'])]
+    public function feedUp(Kid $kid): Response
     {
-        $kidState = $kid->getState();
-        $feeding = new Feeding();
-
-        if ($kidState instanceof Newborn) {
-            $feeding->setFeedingMethod(new BreastFeedingMethod());
-        } else {
-            $feeding->setFeedingMethod(new FormulaFeedingMethod());
-        }
-
+        $feeding = new Feeding($kid->getState());
         $feeding->execute();
+
+        return $this->redirectToRoute('app_main');
     }
 }
