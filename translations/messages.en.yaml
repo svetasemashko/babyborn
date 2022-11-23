@@ -29,6 +29,7 @@ button:
   createKid:   Create new kid
   delete:      Delete
   edit:        Edit
+  feedUp:      Feed up
   show:        Show
   update:      Update
 
