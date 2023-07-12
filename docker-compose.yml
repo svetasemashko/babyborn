@@ -17,10 +17,16 @@ services:
 
   php:
     build: ./docker/php/
-    expose:
-      - 9000
+#    expose:
+#      - 9000
     volumes:
       - .:/var/www
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+    ports:
+      - "9006:9000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - babyborn
 

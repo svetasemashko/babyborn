@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Event\BecameInfantEvent;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use Monolog\Logger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -15,7 +16,7 @@ class InfantSubscriber implements EventSubscriberInterface
         private Logger $logger
     ) {}
 
-    public static function getSubscribedEvents()
+    #[ArrayShape([BecameInfantEvent::NAME => "string"])] public static function getSubscribedEvents()
     {
         return [
             BecameInfantEvent::NAME => 'createInfant',
