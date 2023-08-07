@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'createData'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container-lg my-5">
+        <h2>{{ 'createData'|trans }}</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ 'createData'|trans }}</li>
+            </ol>
+        </nav>
+        <a class="btn btn-info" href="{{ path('app_main')}}" role="button">{{ 'button.backToList'|trans }}</a>
+        <div class="container-lg my-5">
+            <div class="row">
+                <div class="col-4 mb-2">
+                    {{ include('kid/_form.html.twig', {'button_label': 'button.create'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% load datetime duration i18n widget_tweaks %}
+
+{% block title %}{% trans "Feedings" %}{% endblock %}
+
+
+
+{% block content %}
+    <h1>
+        {% trans "Feedings" %}
+        {% if perms.core.add_feeding %}
+            <a href="{% url 'core:feeding-add' %}" class="btn btn-sm btn-success">
+                <i class="icon-feeding" aria-hidden="true"></i> {% trans "Add Feeding" %}
+            </a>
+        {% endif %}
+    </h1>
+    <div class="table-responsive">
+        <table class="table table-instances table-borderless table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th>{% trans "Actions" %}</th>
+                <th>{% trans "Date" %}</th>
+                {% if not unique_child %}
+                    <th>{% trans "Child" %}</th>
+                {% endif %}
+                <th>{% trans "Method" %}</th>
+                <th>{% trans "Type" %}</th>
+                <th>{% trans "Amt." %}</th>
+                <th>{% trans "Duration" %}</th>
+                <th>{% trans "Tags" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for feeding in object_list %}
+                <tr>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="{% trans "Actions" %}">
+
+                            {% if perms.core.change_feeding %}
+                                <a href="{% url 'core:feeding-update' feeding.id %}" class="btn btn-primary">
+                                    <i class="icon-update" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
+
+                            {% if perms.core.delete_feeding %}
+                                <a href="{% url 'core:feeding-delete' feeding.id %}" class="btn btn-danger">
+                                    <i class="icon-delete" aria-hidden="true"></i>
+                                </a>
+                            {% endif %}
+
+                        </div>
+                    </td>
+                    <th scope="row">{{ feeding.start|datetime_short }}</th>
+                    {% if not unique_child %}
+                        <td><a href="{% url 'core:child' feeding.child.slug %}">{{ feeding.child }}</a></td>
+                    {% endif %}
+                    <td>{{ feeding.get_method_display }}</td>
+                    <td>{{ feeding.get_type_display }}</td>
+                    <td>
+                        {% if feeding.amount %}
+                            {{ feeding.amount }}
+                        {% endif %}
+                    </td>
+                    <td>{{ feeding.duration|duration_string }}</td>
+                    <td>
+                        {% include "core/render_tag_list.html" with tags=feeding.tags.all %}
+                    </td>
+                </tr>
+                {% if feeding.notes %}
+                    <tr class="{{ row_class }} row-details">
+                        <td colspan="8"><i class="icon-note me-2" aria-hidden="true"></i>{{ feeding.notes }}</td>
+                    </tr>
+                {% endif %}
+                {% empty %}
+                <tr>
+                    <th colspan="8">{% trans "No feedings found." %}</th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include 'babybuddy/paginator.html' %}
+{% endblock %}

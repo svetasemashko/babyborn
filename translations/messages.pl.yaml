@@ -1,0 +1,46 @@
+actions:     Działania
+adult:       Rodzic
+adults:      Rodzicy
+createData:  Tworzyć nowe
+dateOfBirth: Data urodzenia
+editData:    Edytuj dane
+female:      Kobieta
+id:          №
+infant:      Infant
+infants:     Infanty
+kid:         Dziecko
+kids:        Dzieci
+main:        Dom
+male:        Mężczyzna
+name:        Imię
+newborn:     Nadciągnięcie
+newborns:    Noworodki
+sex:         Płeć
+statistics:  Statystyki
+surname:     Nazwisko
+toddler:     Maluch
+toddlers:    Małe dzieci
+youngest:    Najmłodsze dziecko
+
+button:
+  backToList:  Powrót do listy
+  create:      Dodaj
+  createAdult: Dodaj nową osobę dorosłą
+  createKid:   Dodaj nowe dziecko
+  delete:      Usuń
+  edit:        Edycja
+  feedUp:      Feed
+  show:        Pokaż
+  update:      Aktualizuj
+
+confirm:
+  delete: Czy na pewno chcesz usunąć?
+
+recordIsRemoved: Rekord usunięty
+moments:         Zapisz najlepsze chwile
+noInfantsFound:  Nie znaleziono niemowląt
+noNewbornsFound: Nie znaleziono noworodków
+noAdultsFound:   Nie znaleziono rodziców
+
+statistic:
+  adultsOfBornThisMonth: Rodzice dzieci urodzonych w tym miesiącu

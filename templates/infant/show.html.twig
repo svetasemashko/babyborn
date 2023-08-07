@@ -1,0 +1,75 @@
+{% extends 'kid/base.html.twig' %}
+
+{% block title %}{{ kid.name ?: 'kid'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags(kid.sex.value) }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-lg my-5">
+        <h2>{{ kid.name ?: 'kid'|trans }}</h2>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">{{ 'main'|trans }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ path('app_newborn_index') }}">{{ 'newborns'|trans }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ kid.name }}</li>
+            </ol>
+        </nav>
+        <a class="btn btn-info" href="{{ path('app_newborn_index')}}" role="button">{{ 'button.backToList'|trans }}</a>
+        <div class="container-lg my-5">
+            <div class="row">
+                <div class="col-sm">
+                    <img src="{{ kid.sex.value == 'male' ? asset('images/kids/boy.png') : asset('images/kids/girl.png') }}" alt="kid picture" height="300">
+                </div>
+                <div class="col-sm">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th>{{ 'name'|trans }}</th>
+                            <td>{{ kid.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'dateOfBirth'|trans }}</th>
+                            <td>{{ kid.dateOfBirth ? kid.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'sex'|trans }}</th>
+                            <td>{{ kid.sex.value|trans }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-sm">
+                            <a class="btn btn-info btn-block" href="{{ path('app_kid_edit', {'id': kid.id}) }}" role="button">{{ 'button.edit'|trans }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <a class="btn btn-success mt-5" href="{{ path('feed', { 'id': kid.id })}}" role="button">{{ 'button.feedUp'|trans }}</a>
+                </div>
+                <div class="col-sm">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th>{{ 'adults'|trans }}</th>
+                        </tr>
+                        {% for adult in adults %}
+                        <tr>
+                            <td>{{ adult.name }} {{ adult.surname }}</td>
+                        </tr>
+                        </tbody>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">{{ 'noAdultsFound'|trans }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
